@@ -17,31 +17,20 @@ import android.widget.Toast;
 
 import com.example.android.myinventoryappstage11.data.BookContract;
 import com.example.android.myinventoryappstage11.data.BookDbHelper;
-//import com.example.android.books.data.BookContract.BookEntry;
-//import com.example.android.books.data.BookDbHelper;
 
 public class EditorActivity extends AppCompatActivity {
 
-    /** EditText field to enter the pet's name */
     private EditText mNameEditText;
 
-    /** EditText field to enter the pet's breed */
     private EditText mPriceEditText;
 
-    /** EditText field to enter the pet's weight */
     private EditText mQuantityEditText;
 
     private EditText mSupplierNameEditText;
     private EditText mSupplierPhoneEditText;
 
-    /** EditText field to enter the pet's gender */
     private Spinner mTypeSpinner;
 
-    /**
-     * Gender of the pet. The possible valid values are in the PetContract.java file:
-     * { PetEntry#GENDER_UNKNOWN}, {PetEntry#GENDER_MALE}, or
-     * {PetEntry#GENDER_FEMALE}.
-     */
     private int mType = BookContract.BookEntry.ALL;
 
     @Override

@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.example.android.myinventoryappstage11.data.BookContract;
 import com.example.android.myinventoryappstage11.data.BookDbHelper;
 
@@ -65,11 +64,10 @@ public class CatalogActivity extends AppCompatActivity {
                 BookContract.BookEntry.COLUMN_BOOK_QUANTITY,
                 BookContract.BookEntry.COLUMN_BOOK_TYPE,
                 BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
-                BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE
-        };
+                BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE};
 
         // Perform a query on the books table
-        Cursor cursor = db.query(
+        Cursor cursor =db.query(
                 BookContract.BookEntry.TABLE_NAME,   // The table to query
                 projection,            // The columns to return
                 null,                  // The columns for the WHERE clause

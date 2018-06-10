@@ -22,7 +22,7 @@ public final class BookContract {
         public final static String COLUMN_BOOK_QUANTITY ="quantity";
         public final static String COLUMN_BOOK_SUPPLIER_NAME ="supplierName";
         public final static String COLUMN_BOOK_SUPPLIER_PHONE ="supplierPhone";
-        public final static String COLUMN_BOOK_TYPE = "book type";
+        public final static String COLUMN_BOOK_TYPE = "book_type";
 
         /**
          * Possible values for the type of the book.
