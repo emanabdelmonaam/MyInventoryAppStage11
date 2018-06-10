@@ -114,7 +114,7 @@ public class EditorActivity extends AppCompatActivity {
         values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, quantityB);
         values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, mType);
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
-        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierPhoneB);
+        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneB);
 
         // Insert a new row for Book in the database, returning the ID of that new row.
         long newRowId = db.insert(BookContract.BookEntry.TABLE_NAME, null, values);
