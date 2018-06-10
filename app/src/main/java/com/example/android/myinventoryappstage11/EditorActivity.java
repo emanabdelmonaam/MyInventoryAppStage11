@@ -21,15 +21,11 @@ import com.example.android.myinventoryappstage11.data.BookDbHelper;
 public class EditorActivity extends AppCompatActivity {
 
     private EditText mNameEditText;
-
     private EditText mPriceEditText;
-
     private EditText mQuantityEditText;
-
+    private Spinner mTypeSpinner;
     private EditText mSupplierNameEditText;
     private EditText mSupplierPhoneEditText;
-
-    private Spinner mTypeSpinner;
 
     private int mType = BookContract.BookEntry.ALL;
 
@@ -45,7 +41,6 @@ public class EditorActivity extends AppCompatActivity {
         mTypeSpinner = (Spinner) findViewById(R.id.type_of_book);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_book_supplir_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_book_supplier_phone);
-
 
         setupSpinner();
     }
@@ -98,15 +93,12 @@ public class EditorActivity extends AppCompatActivity {
         String nameString = mNameEditText.getText().toString().trim();
         String priceBString = mPriceEditText.getText().toString().trim();
         int priceB = Integer.parseInt(priceBString);
-
         String quantityBString = mQuantityEditText.getText().toString().trim();
         int quantityB = Integer.parseInt(quantityBString);
 
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
-
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
         int supplierPhoneB = Integer.parseInt(supplierPhoneString);
-
 
         // Create database helper
         BookDbHelper mDbHelper = new BookDbHelper(this);
@@ -118,7 +110,7 @@ public class EditorActivity extends AppCompatActivity {
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, nameString);
-        values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, priceBString);
+        values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, priceB);
         values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, quantityB);
         values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, mType);
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
@@ -153,6 +145,7 @@ public class EditorActivity extends AppCompatActivity {
             case R.id.action_save:
                 // Save Book to database
                 insertBook();
+
                 // Exit activity
                 finish();
                 return true;
@@ -168,6 +161,4 @@ public class EditorActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

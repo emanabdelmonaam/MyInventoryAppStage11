@@ -113,7 +113,7 @@ public class CatalogActivity extends AppCompatActivity {
                 String currentName = cursor.getString(nameColumnIndex);
                 int currentPrice = cursor.getInt(priceColumnIndex);
                 int currentQuantity = cursor.getInt(quantityColumnIndex);
-                int currentType = cursor.getInt(typeColumnIndex);
+                String currentType = cursor.getString(typeColumnIndex);
                 String currentSupplierN = cursor.getString(supplierNColumnIndex);
                 int currentSupplierP = cursor.getInt(supplierPColumnIndex);
 

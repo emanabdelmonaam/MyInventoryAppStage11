@@ -17,12 +17,13 @@ public final class BookContract {
         public final static String TABLE_NAME = "Books";
 
         public final static String _ID = BaseColumns._ID;
+
         public final static String COLUMN_BOOK_NAME ="name";
         public final static String COLUMN_BOOK_PRICE ="price";
         public final static String COLUMN_BOOK_QUANTITY ="quantity";
+        public final static String COLUMN_BOOK_TYPE = "book_type";
         public final static String COLUMN_BOOK_SUPPLIER_NAME ="supplierName";
         public final static String COLUMN_BOOK_SUPPLIER_PHONE ="supplierPhone";
-        public final static String COLUMN_BOOK_TYPE = "book_type";
 
         /**
          * Possible values for the type of the book.
