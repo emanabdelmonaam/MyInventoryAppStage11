@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.android.myinventoryappstage11.data.BookContract;
 import com.example.android.myinventoryappstage11.data.BookDbHelper;
 
@@ -95,7 +94,6 @@ public class EditorActivity extends AppCompatActivity {
         int priceB = Integer.parseInt(priceBString);
         String quantityBString = mQuantityEditText.getText().toString().trim();
         int quantityB = Integer.parseInt(quantityBString);
-
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
         int supplierPhoneB = Integer.parseInt(supplierPhoneString);

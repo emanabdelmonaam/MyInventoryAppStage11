@@ -1,6 +1,4 @@
 <resources>
-
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -8,4 +6,61 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="Catalog_main">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="Catalog_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/activity_margin16</item>
+    </style>
+
+    <style name="Catalog_floting">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_margin">@dimen/activity_margin16</item>
+        <item name="android:src">@drawable/bookone</item>
+    </style>
+
+    <style name="Editor_main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="Editor_Linear_main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/editor_padding_text6</item>
+    </style>
+
+    <style name="Editor_linear">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="Editor_text">
+        <item name="android:layout_width">@dimen/editor_width0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/editor_padding_text6</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:text">sans-serif-condensed</item>
+        <item name="android:layout_margin">@dimen/editor_padding_text6</item>
+    </style>
+
+    <style name="Editor_linear_edit">
+        <item name="android:layout_width">@dimen/editor_width0</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Editor_edit_text1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">textCapWords</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
 </resources>

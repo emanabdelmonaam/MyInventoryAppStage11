@@ -1,64 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/Editor_main"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".EditorActivity">
   <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
+        style="@style/Editor_Linear_main"
         android:orientation="vertical">
       <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            style="@style/Editor_linear">
              <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                 style="@style/Editor_text"
                  android:layout_weight="1"
-                 android:padding="6dp"
-                 android:layout_margin="10dp"
+                 android:textAppearance="?android:textAppearanceSmall"
+                 android:fontFamily="sans-serif-condensed"
                 android:text="@string/product_name"/>
              <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                style="@style/Editor_linear_edit"
                 android:layout_weight="2">
                  <EditText
-                   android:id="@+id/edit_book_name"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:inputType="textCapWords"
-                   android:fontFamily="sans-serif-condensed"
-                   android:hint="Book Name"/>
+                     android:id="@+id/edit_book_name"
+                     style="@style/Editor_edit_text1"
+                     android:fontFamily="sans-serif-condensed"
+                     android:hint="Book Name"/>
              </LinearLayout>
-
        </LinearLayout>
-
        <LinearLayout
         android:id="@+id/price_book"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        style="@style/Editor_linear">
            <TextView
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
+               style="@style/Editor_text"
                android:layout_weight="1"
                android:fontFamily="sans-serif-condensed"
-               android:padding="16dp"
                android:text="@string/book_price"
-               android:textAppearance="?android:textAppearanceSmall"
-               android:textColor="@color/colorPrimary"/>
+               android:textAppearance="?android:textAppearanceSmall"/>
            <LinearLayout
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_weight="2"
-               android:padding="5dp">
+               style="@style/Editor_linear_edit"
+               android:layout_weight="2">
                <EditText
                    android:id="@+id/edit_book_price"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:inputType="textCapWords"
+                   style="@style/Editor_edit_text1"
                    android:fontFamily="sans-serif-condensed"
                    android:hint="Book Price"/>
            </LinearLayout>
@@ -66,29 +46,19 @@
 
       <LinearLayout
           android:id="@+id/quantity_book"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="horizontal">
+          style="@style/Editor_linear">
           <TextView
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
+              style="@style/Editor_text"
               android:layout_weight="1"
               android:fontFamily="sans-serif-condensed"
-              android:padding="16dp"
               android:text="@string/quantity"
-              android:textAppearance="?android:textAppearanceSmall"
-              android:textColor="@color/colorPrimary"/>
+              android:textAppearance="?android:textAppearanceSmall"/>
           <LinearLayout
-              android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:layout_weight="2"
-              android:padding="5dp">
+              style="@style/Editor_linear_edit"
+              android:layout_weight="2">
               <EditText
                   android:id="@+id/edit_book_quantity"
-                  android:layout_width="match_parent"
-                  android:layout_weight="2"
-                  android:layout_height="wrap_content"
-                  android:inputType="textCapWords"
+                  style="@style/Editor_edit_text1"
                   android:fontFamily="sans-serif-condensed"
                   android:hint="Book Quantity"/>
           </LinearLayout>
@@ -96,21 +66,19 @@
 
       <LinearLayout
           android:id="@+id/type_book"
-          android:layout_width="match_parent"
-          android:orientation="horizontal"
-          android:layout_height="wrap_content">
+          style="@style/Editor_linear">
           <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
+              style="@style/Editor_text"
+              android:layout_weight="1"
               android:text="@string/book_type"
-              android:padding="13dp"
-              android:textAppearance="?android:textAppearanceSmall"
-              android:textColor="@color/colorPrimary" />
+              android:fontFamily="sans-serif-condensed"
+              android:textAppearance="?android:textAppearanceSmall" />
 
           <Spinner
               android:id="@+id/type_of_book"
-              android:layout_width="wrap_content"
+              android:layout_width="0dp"
               android:layout_height="wrap_content"
+              android:layout_weight="3"
               android:fontFamily="sans-serif-condensed"
               android:padding="16dp"
               android:layout_marginLeft="40dp"
@@ -119,28 +87,19 @@
 
           <LinearLayout
               android:id="@+id/supplier_name"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal">
+              style="@style/Editor_linear">
               <TextView
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
+                  style="@style/Editor_text"
                   android:layout_weight="1"
                   android:fontFamily="sans-serif-condensed"
-                  android:padding="16dp"
                   android:text="@string/supplier_name"
-                  android:textAppearance="?android:textAppearanceSmall"
-                  android:textColor="@color/colorPrimary"/>
+                  android:textAppearance="?android:textAppearanceSmall"/>
               <LinearLayout
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="2"
-                  android:padding="5dp">
+                  style="@style/Editor_linear_edit"
+                  android:layout_weight="2">
                   <EditText
                       android:id="@+id/edit_book_supplir_name"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:inputType="textCapWords"
+                      style="@style/Editor_edit_text1"
                       android:fontFamily="sans-serif-condensed"
                       android:hint="Book Supplier Name"/>
               </LinearLayout>
@@ -148,29 +107,20 @@
 
           <LinearLayout
               android:id="@+id/supplier_phone"
-              android:layout_width="match_parent"
-              android:orientation="horizontal"
-              android:layout_height="wrap_content">
+              style="@style/Editor_linear">
 
               <TextView
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
+                  style="@style/Editor_text"
                   android:layout_weight="1"
                   android:fontFamily="sans-serif-condensed"
-                  android:padding="16dp"
                   android:text="@string/supplier_phone"
-                  android:textAppearance="?android:textAppearanceSmall"
-                  android:textColor="@color/colorPrimary"/>
+                  android:textAppearance="?android:textAppearanceSmall"/>
               <LinearLayout
-                  android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="2"
-                  android:padding="5dp">
+                  style="@style/Editor_linear_edit"
+                  android:layout_weight="2">
                   <EditText
                       android:id="@+id/edit_book_supplier_phone"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:inputType="textCapWords"
+                      style="@style/Editor_edit_text1"
                       android:fontFamily="sans-serif-condensed"
                       android:hint="Book Supplier Phone"/>
               </LinearLayout>

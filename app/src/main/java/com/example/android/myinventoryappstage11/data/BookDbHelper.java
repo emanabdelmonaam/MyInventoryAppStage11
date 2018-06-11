@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.android.myinventoryappstage11.data.BookContract.BookEntry;
 
-
 /**
  * Database helper for Pets app. Manages database creation and version management.
  */
@@ -42,7 +41,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
                 + BookEntry.COLUMN_BOOK_NAME + " TEXT NOT NULL, "
                 + BookEntry.COLUMN_BOOK_PRICE + " INTEGER NOT NULL DEFAULT 0 , "
                 + BookEntry.COLUMN_BOOK_QUANTITY + " INTEGER ,"
-                + BookEntry.COLUMN_BOOK_TYPE + " INTEGEER  , "
+                + BookEntry.COLUMN_BOOK_TYPE + " TEXT NOT NULL , "
                 + BookEntry.COLUMN_BOOK_SUPPLIER_NAME + " TEXT ,"
                 + BookEntry.COLUMN_BOOK_SUPPLIER_PHONE + " INTEGER );";
 
