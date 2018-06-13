@@ -27,9 +27,9 @@ public final class BookContract {
         /**
          * Possible values for the type of the book.
          */
-        public static final int ALL = 0;
-        public static final int EBOOK = 1;
-        public static final int PAPER = 2;
+        public static final String ALL = "All";
+        public static final String EBOOK = "E- Book";
+        public static final String PAPER = "Paper";
     }
 
 }

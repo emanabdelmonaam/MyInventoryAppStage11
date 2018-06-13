@@ -26,7 +26,7 @@ public class EditorActivity extends AppCompatActivity {
     private EditText mSupplierNameEditText;
     private EditText mSupplierPhoneEditText;
 
-    private int mType = BookContract.BookEntry.ALL;
+    private String mType = BookContract.BookEntry.ALL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
