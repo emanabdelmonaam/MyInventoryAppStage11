@@ -4,16 +4,11 @@ import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
 
 public class BookProvider extends ContentProvider{
-
 
     /**
      * Tag for the log messages
@@ -42,15 +37,13 @@ public class BookProvider extends ContentProvider{
 
     // Static initializer. This is run the first time anything is called from this class.
     static {
+
         // The calls to addURI() go here, for all of the content URI patterns that the provider
         // should recognize. All paths added to the UriMatcher have a corresponding code to return
         // when a match is found.
-
-
         sUriMatcher.addURI(BookContract.CONTENT_AUTHORITY, BookContract.PATH_BOOKS, BOOKS);
         sUriMatcher.addURI(BookContract.CONTENT_AUTHORITY, BookContract.PATH_BOOKS + "/#", BOOK_ID);
     }
-
 
     @Override
     public boolean onCreate() {
@@ -65,12 +58,14 @@ public class BookProvider extends ContentProvider{
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
         // This cursor will hold the result of the query
-        Cursor cursor = null;
+        Cursor cursor;
 
         // Figure out if the URI matcher can match the URI to a specific code
         int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
+                cursor = database.query(BookContract.BookEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
                 // For the PETS code, query the pets table directly with the given
                 // projection, selection, selection arguments, and sort order. The cursor
                 // could contain multiple rows of the pets table.
@@ -93,7 +88,6 @@ public class BookProvider extends ContentProvider{
         // so we know what content URI the Cursor was created for.
         // If the data at this URI changes, then we know we need to update the Cursor.
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
-
         return cursor;
     }
 
@@ -108,30 +102,35 @@ public class BookProvider extends ContentProvider{
         }    }
 
     private Uri insertBook(Uri uri, ContentValues values) {
+
         // Check that the name is not null
-                String name = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_NAME);
-                if (name == null) {
-                    throw new IllegalArgumentException("Pet requires a name");
-                            }
+        String name = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Book requires a name");
+        }
 
-                       // Check that the gender is valid
-                             Integer type = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_TYPE);
-                if (type == null || !BookContract.BookEntry.isValidType(type)) {
-                    throw new IllegalArgumentException("Pet requires valid gender");
-                            }
+        // Check that the type is valid
+        Integer type = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_TYPE);
+        if (type == null || !BookContract.BookEntry.isValidType(type)) {
+            throw new IllegalArgumentException("Book requires valid gender");
+        }
 
-                        // If the weight is provided, check that it's greater than or equal to 0 kg
-                                Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
-                if (quantity != null && quantity < 0) {
-            throw new IllegalArgumentException("b00k requires valid quantity");
+        // If the weight is provided, check that it's greater than or equal to 0 kg
+        Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Book requires valid quantity");
                 }
         // If the weight is provided, check that it's greater than or equal to 0 kg
         Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
         if (price != null && price < 0) {
-            throw new IllegalArgumentException("b00k requires valid quantity");
+            throw new IllegalArgumentException("Book requires valid quantity");
         }
 
-   // Get writeable database
+        String supplierName = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
+
+        String supplierPhoneNumber = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+
+        // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
         // Insert the new pet with the given values
         long id = database.insert(BookContract.BookEntry.TABLE_NAME, null, values);
@@ -143,7 +142,6 @@ public class BookProvider extends ContentProvider{
 
         // Notify all listeners that the data has changed for the pet content URI
         getContext().getContentResolver().notifyChange(uri, null);
-
 
         // Return the new URI with the ID (of the newly inserted row) appended at the end
         return ContentUris.withAppendedId(uri, id);
