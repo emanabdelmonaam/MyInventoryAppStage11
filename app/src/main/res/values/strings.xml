@@ -15,4 +15,54 @@
     <string name="book_all">All</string>
     <string name="book_paper">Paper</string>
     <string name="book_ebook">E-Book</string>
+
+    <string name="editor_insert_pet_successful">Book saved</string>
+    <string name="editor_insert_pet_failed">Error with saving Book</string>
+
+    <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
+    <string name="empty_view_title_text">It\'s a bit lonely here...</string>
+
+    <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
+    <string name="empty_view_subtitle_text">Add a Book</string>
+    <string name="editor_activity_title_edit_pet">Edit Book</string>
+    <string name="you_did_not_add_any_Book">you did not add any Book</string>
+
+    <string name="editor_update_pet_successful">Book update</string>
+    <string name="editor_update_pet_failed">Error with update Book</string>
+
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+
+    <!-- Dialog button text for the option to discard a user's changes -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current book -->
+    <string name="keep_editing">Keep Editing</string>
+
+    <!-- Toast message in editor when current pet was successfully deleted [CHAR LIMIT=NONE] -->
+        <string name="editor_delete_pet_successful">Pet deleted</string>
+
+        <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
+        <string name="editor_delete_pet_failed">Error with deleting pet</string>
+
+        <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
+        <string name="delete_dialog_msg">Delete this pet?</string>
+
+        <!-- Dialog button text for the option to confirm deleting the current pet [CHAR LIMIT=20] -->
+        <string name="delete">Delete</string>
+
+        <!-- Dialog button text for the option to cancel deletion of the current pet [CHAR LIMIT=20] -->
+        <string name="cancel">Cancel</string>
+
+    <!-- Label for the pet's breed if the breed is unknown [CHAR LIMIT=20] -->
+    <string name="unknown_breed">Unknown breed</string>
+
+    <string name="wrong_name">Add Name</string>
+    <string name="wrong_price">Add Price</string>
+    <string name="wrong_quantity">Add Quantity</string>
+    <string name="wrong_supplier_name">Add Supplier Name</string>
+    <string name="wrong_supplier_phone">Add Supplier Phone</string>
+
+
+
+
 </resources>

@@ -11,10 +11,9 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
-    <style name="Catalog_text">
+    <style name="Catalog_list">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:padding">@dimen/activity_margin16</item>
     </style>
 
     <style name="Catalog_floting">

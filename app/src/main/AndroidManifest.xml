@@ -26,5 +26,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CatalogActivity" />
         </activity>
+        <provider
+            android:authorities="com.example.android.myinventoryappstage11"
+            android:name=".data.BookProvider"
+            android:exported="false"/>
     </application>
 </manifest>
