@@ -51,14 +51,10 @@ public class EditorActivity extends AppCompatActivity
 
     private int mType = BookContract.BookEntry.ALL;
 
-    private Button mQuantityDecrement;
-    private Button mQuantityIncrement;
-    private Button mOrderItem;
     /**
      * Boolean flag that keeps track of whether the book has been edited (true) or not (false)
      */
     private boolean mBookHasChanged = false;
-    private boolean mProductCanBeSaved = false;
 
     private int quantity;
 
@@ -182,12 +178,15 @@ public class EditorActivity extends AppCompatActivity
 
         // Check if this is supposed to be a new book
         // and check if all the fields in the editor are blank
-        if (mCurrentBookUri == null && TextUtils.isEmpty(nameString) && TextUtils.isEmpty(priceBString) &&
-                TextUtils.isEmpty(quantityBString) && TextUtils.isEmpty(supplierNameString)
+        if (mCurrentBookUri == null
+                && TextUtils.isEmpty(nameString)
+                && TextUtils.isEmpty(priceBString)
+                && TextUtils.isEmpty(quantityBString)
+                && TextUtils.isEmpty(supplierNameString)
                 && TextUtils.isEmpty(supplierPhoneString)
                 && mType == BookContract.BookEntry.ALL) {
-            Toast.makeText(this, R.string.you_did_not_add_any_Book,
-                    Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, R.string.you_did_not_add_any_Book,
+             //       Toast.LENGTH_SHORT).show();
             return;
         } else {
 
