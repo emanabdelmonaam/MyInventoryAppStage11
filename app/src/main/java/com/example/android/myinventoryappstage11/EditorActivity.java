@@ -2,6 +2,7 @@ package com.example.android.myinventoryappstage11;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -9,9 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.app.NavUtils;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -20,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -94,7 +92,7 @@ public class EditorActivity extends AppCompatActivity
 
             // Initialize a loader to read the book data from the database
             // and display the current values in the editor
-            getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, (android.app.LoaderManager.LoaderCallbacks<Object>) this);
+            getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null,  this);
 
         }
 
@@ -332,7 +330,7 @@ public class EditorActivity extends AppCompatActivity
 
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public android.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
                 BookContract.BookEntry._ID,
                 BookContract.BookEntry.COLUMN_BOOK_NAME,
@@ -350,9 +348,8 @@ public class EditorActivity extends AppCompatActivity
                 null);
     }
 
-
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor cursor) {
 
         // Bail early if the cursor is null or there is less than 1 row in the cursor
         if (cursor == null || cursor.getCount() < 1) {
@@ -405,7 +402,8 @@ public class EditorActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(android.content.Loader<Cursor> loader) {
+
 
         // If the loader is invalidated, clear out all the data from the input fields.
         mNameEditText.setText("");
