@@ -16,19 +16,19 @@
     <string name="book_paper">Paper</string>
     <string name="book_ebook">E-Book</string>
 
-    <string name="editor_insert_pet_successful">Book saved</string>
-    <string name="editor_insert_pet_failed">Error with saving Book</string>
+    <string name="editor_insert_book_successful">Book saved</string>
+    <string name="editor_insert_book_failed">Error with saving Book</string>
 
     <!-- Title text for the empty view, which describes the empty dog house image [CHAR LIMIT=50] -->
-    <string name="empty_view_title_text">It\'s a bit lonely here...</string>
+    <string name="empty_view_title_text">there are not available books now ...</string>
 
     <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Add a Book</string>
-    <string name="editor_activity_title_edit_pet">Edit Book</string>
+    <string name="editor_activity_title_edit_book">Edit Book</string>
     <string name="you_did_not_add_any_Book">you did not add any Book</string>
 
-    <string name="editor_update_pet_successful">Book update</string>
-    <string name="editor_update_pet_failed">Error with update Book</string>
+    <string name="editor_update_book_successful">Book update</string>
+    <string name="editor_update_book_failed">Error with update Book</string>
 
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
 
@@ -39,13 +39,13 @@
     <string name="keep_editing">Keep Editing</string>
 
     <!-- Toast message in editor when current pet was successfully deleted [CHAR LIMIT=NONE] -->
-        <string name="editor_delete_pet_successful">Pet deleted</string>
+        <string name="editor_delete_book_successful">Book deleted</string>
 
         <!-- Toast message in editor when current pet has failed to be deleted [CHAR LIMIT=NONE] -->
-        <string name="editor_delete_pet_failed">Error with deleting pet</string>
+        <string name="editor_delete_book_failed">Error with deleting Book</string>
 
         <!-- Dialog message to ask the user to confirm deleting the current pet [CHAR LIMIT=NONE] -->
-        <string name="delete_dialog_msg">Delete this pet?</string>
+        <string name="delete_dialog_msg">Delete this Book?</string>
 
         <!-- Dialog button text for the option to confirm deleting the current pet [CHAR LIMIT=20] -->
         <string name="delete">Delete</string>
@@ -61,8 +61,4 @@
     <string name="wrong_quantity">Add Quantity</string>
     <string name="wrong_supplier_name">Add Supplier Name</string>
     <string name="wrong_supplier_phone">Add Supplier Phone</string>
-
-
-
-
 </resources>

@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 public class BookProvider extends ContentProvider{
 
@@ -99,7 +100,8 @@ public class BookProvider extends ContentProvider{
                 return insertBook(uri, values);
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
-        }    }
+        }
+    }
 
     private Uri insertBook(Uri uri, ContentValues values) {
 
@@ -117,12 +119,12 @@ public class BookProvider extends ContentProvider{
 
         // If the weight is provided, check that it's greater than or equal to 0 kg
         Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
-        if (quantity != null && quantity < 0) {
+        if (quantity == null) {
             throw new IllegalArgumentException("Book requires valid quantity");
                 }
         // If the weight is provided, check that it's greater than or equal to 0 kg
         Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
-        if (price != null && price < 0) {
+        if (price == null) {
             throw new IllegalArgumentException("Book requires valid quantity");
         }
 
@@ -136,7 +138,7 @@ public class BookProvider extends ContentProvider{
         long id = database.insert(BookContract.BookEntry.TABLE_NAME, null, values);
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
-           // Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
 
@@ -178,36 +180,38 @@ public class BookProvider extends ContentProvider{
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_NAME)) {
             String name = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_NAME);
             if (name == null) {
-                throw new IllegalArgumentException("Pet requires a name");
+                throw new IllegalArgumentException("Book requires a name");
             }
         }
 
         // If the {@link PetEntry#COLUMN_PET_GENDER} key is present,
         // check that the gender value is valid.
-        if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_TYPE)) {
-            Integer type = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_TYPE);
-            if (type == null || !BookContract.BookEntry.isValidType(type)) {
-
-                throw new IllegalArgumentException("Pet requires valid gender");
-            }
-        }
-
-        // If the {@link PetEntry#COLUMN_PET_WEIGHT} key is present,
-        // check that the weight value is valid.
-        if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_QUANTITY)) {
-            // Check that the weight is greater than or equal to 0 kg
-            Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
-            if (quantity != null && quantity < 0) {
-                throw new IllegalArgumentException("Pet requires valid quantity");
-            }
-        }
-
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_PRICE)) {
-            // Check that the weight is greater than or equal to 0 kg
             Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
-            if (price != null && price < 0) {
-                throw new IllegalArgumentException("Pet requires valid price");
+            if (price == null || !BookContract.BookEntry.isValidType(price)) {
+
+                throw new IllegalArgumentException("Book requires valid price ");
             }
+        }
+
+        if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_QUANTITY)) {
+
+            Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
+            if (quantity == null) {
+                throw new IllegalArgumentException("Book requires valid quantity");
+            }
+        }
+
+        if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_TYPE)) {
+            String type = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_TYPE);
+        }
+
+        if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME)) {
+            String supplierName = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
+            }
+
+        if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE)) {
+            Integer supplierPhone = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
         }
 
 
@@ -285,4 +289,3 @@ public class BookProvider extends ContentProvider{
                 }
             }
         }
-

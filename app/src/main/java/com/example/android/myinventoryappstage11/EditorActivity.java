@@ -7,7 +7,9 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.android.myinventoryappstage11.data.BookContract;
+import com.example.android.myinventoryappstage11.data.BookDbHelper;
 
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -88,7 +91,7 @@ public class EditorActivity extends AppCompatActivity
             invalidateOptionsMenu();
         } else { //other stuff }
 
-            setTitle(getString(R.string.editor_activity_title_edit_pet));
+            setTitle(getString(R.string.editor_activity_title_edit_book));
 
             // Initialize a loader to read the book data from the database
             // and display the current values in the editor
@@ -163,6 +166,7 @@ public class EditorActivity extends AppCompatActivity
      * Get user input from editor and save new book into database.
      */
     private void saveBook() {
+
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
@@ -174,23 +178,21 @@ public class EditorActivity extends AppCompatActivity
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
         int supplierPhoneB = Integer.parseInt(supplierPhoneString);
 
-        // Check if this is supposed to be a new book
-        // and check if all the fields in the editor are blank
-        if (mCurrentBookUri == null
-                && TextUtils.isEmpty(nameString)
+        if (TextUtils.isEmpty(nameString)
                 && TextUtils.isEmpty(priceBString)
                 && TextUtils.isEmpty(quantityBString)
                 && TextUtils.isEmpty(supplierNameString)
                 && TextUtils.isEmpty(supplierPhoneString)
                 && mType == BookContract.BookEntry.ALL) {
-           // Toast.makeText(this, R.string.you_did_not_add_any_Book,
-             //       Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.you_did_not_add_any_Book,
+                    Toast.LENGTH_SHORT).show();
             return;
-        } else {
+        }
 
             // Create a ContentValues object where column names are the keys,
             // and pet attributes from the editor are the values.
             ContentValues values = new ContentValues();
+
             values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, nameString);
             values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, priceB);
             values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, quantityB);
@@ -207,28 +209,26 @@ public class EditorActivity extends AppCompatActivity
                 // Show a toast message depending on whether or not the insertion was successful
                 if (newUri == null) {
                     // If the new content URI is null, then there was an error with insertion.
-                    Toast.makeText(this, getString(R.string.editor_insert_pet_failed),
+                    Toast.makeText(this, getString(R.string.editor_insert_book_failed),
                             Toast.LENGTH_SHORT).show();
                 } else {
                     // Otherwise, the insertion was successful and we can display a toast.
-                    Toast.makeText(this, getString(R.string.editor_insert_pet_successful),
+                    Toast.makeText(this, getString(R.string.editor_insert_book_successful),
                             Toast.LENGTH_SHORT).show();
-                    finish();
                 }
             } else {
                 int rowsAffected = getContentResolver().update(mCurrentBookUri, values, null, null);
                 if (rowsAffected == 0) {
-                    Toast.makeText(this, getString(R.string.editor_update_pet_failed),
+                    Toast.makeText(this, getString(R.string.editor_update_book_failed),
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, getString(R.string.editor_update_pet_successful),
+                    Toast.makeText(this, getString(R.string.editor_update_book_successful),
                             Toast.LENGTH_SHORT).show();
-                    finish();
                 }
             }
-        }
-    }
+        finish();
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -315,8 +315,8 @@ public class EditorActivity extends AppCompatActivity
 
         // Otherwise if there are unsaved changes, setup a dialog to warn the user.
         // Create a click listener to handle the user confirming that changes should be discarded.
-        OnClickListener discardButtonClickListener =
-                new OnClickListener() {
+        DialogInterface.OnClickListener discardButtonClickListener =
+                new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // User clicked "Discard" button, close the current activity.
@@ -330,7 +330,7 @@ public class EditorActivity extends AppCompatActivity
 
 
     @Override
-    public android.content.Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
                 BookContract.BookEntry._ID,
                 BookContract.BookEntry.COLUMN_BOOK_NAME,
@@ -401,17 +401,12 @@ public class EditorActivity extends AppCompatActivity
         }
     }
 
+
     @Override
     public void onLoaderReset(android.content.Loader<Cursor> loader) {
 
 
-        // If the loader is invalidated, clear out all the data from the input fields.
-        mNameEditText.setText("");
-        mPriceEditText.setText("");
-        mQuantityEditText.setText("");
-        mTypeSpinner.setSelection(0); // Select "all"
-        mSupplierNameEditText.setText("");
-        mSupplierPhoneEditText.setText("");
+
     }
 
         /**
@@ -430,7 +425,7 @@ public class EditorActivity extends AppCompatActivity
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.unsaved_changes_dialog_msg);
             builder.setPositiveButton(R.string.discard, discardButtonClickListener);
-            builder.setNegativeButton(R.string.keep_editing, new OnClickListener() {
+            builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 
                     // User clicked the "Keep editing" button, so dismiss the dialog
@@ -450,11 +445,11 @@ public class EditorActivity extends AppCompatActivity
      * Perform the deletion of the pet in the database.
      */
     private void showDeleteConfirmationDialog() {
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                deleteProduct();
+                deleteBook();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -464,22 +459,21 @@ public class EditorActivity extends AppCompatActivity
                 }
             }
         });
-        android.support.v7.app.AlertDialog alertDialog = builder.create();
+        AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 
-    private void deleteProduct() {
-        if (mCurrentBookUri != null) {
+    private void deleteBook() {
+
             int rowsDeleted = getContentResolver().delete(mCurrentBookUri, null, null);
 
             if (rowsDeleted == 0) {
-                Toast.makeText(this, getString(R.string.editor_delete_pet_failed),
+                Toast.makeText(this, getString(R.string.editor_delete_book_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, getString(R.string.editor_delete_pet_successful),
+                Toast.makeText(this, getString(R.string.editor_delete_book_successful),
                         Toast.LENGTH_SHORT).show();
             }
-        }
         finish();
     }
 }

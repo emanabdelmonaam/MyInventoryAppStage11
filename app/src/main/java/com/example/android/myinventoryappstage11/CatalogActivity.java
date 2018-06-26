@@ -7,7 +7,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,16 +19,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.myinventoryappstage11.data.BookContract;
-import com.example.android.myinventoryappstage11.data.BookDbHelper;
 
 public class CatalogActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int BOOK_LOADER = 0;
-    BookCursorAdapter mCursorAdabter;
+    private static final int BOOK_LOADER = 1;
+    private BookCursorAdapter mCursorAdabter;
 
-    /** Database helper that will provide us access to the database */
-    private BookDbHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,18 +67,11 @@ public class CatalogActivity extends AppCompatActivity implements
     }
 
 
-
-
     /**
      * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
      */
-    private void insertBook() {
-        // Gets the database in write mode
+    private boolean insertBook() {
 
-        //SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        // Create a ContentValues object where column names are the keys,
-        // and Toto's pet attributes are the values.
         ContentValues values = new ContentValues();
         values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, "hello");
         values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, "76");
@@ -91,15 +80,10 @@ public class CatalogActivity extends AppCompatActivity implements
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,"Maic");
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,"91383849");
 
-
-        // Insert a new row for Toto in the database, returning the ID of that new row.
-        // The first argument for db.insert() is the pets table name.
-        // The second argument provides the name of a column in which the framework
-        // can insert NULL in the event that the ContentValues is empty (if
-        // this is set to "null", then the framework will not insert a row when
-        // there are no values).
-        // The third argument is the ContentValues object containing the info for Toto.
         Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
+
+        return true;
+
     }
 
     /**
@@ -130,6 +114,7 @@ public class CatalogActivity extends AppCompatActivity implements
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
                 deleteAllBooks();
+                //getContentResolver().delete(BookContract.BookEntry.CONTENT_URI, null, null);
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -1,12 +1,16 @@
 package com.example.android.myinventoryappstage11;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.myinventoryappstage11.data.BookContract;
 
@@ -54,26 +58,48 @@ public class BookCursorAdapter extends CursorAdapter {
       */
            @Override
     public void bindView(View view, Context context, Cursor cursor) {
-                // Find individual views that we want to modify in the list item layout
-                        TextView nameTextView = (TextView) view.findViewById(R.id.name);
-                TextView summaryTextView = (TextView) view.findViewById(R.id.summary);
+               String currentId = cursor.getString(cursor.getColumnIndexOrThrow(BookContract.BookEntry._ID));
+               final Uri currentUri = ContentUris.withAppendedId(BookContract.BookEntry.CONTENT_URI, Long.parseLong(currentId));
 
-                        // Find the columns of pet attributes that we're interested in
-                                int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_NAME);
-                int breedColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
+               TextView nameTextView = (TextView) view.findViewById(R.id.name);
+               TextView priceTextView = (TextView) view.findViewById(R.id.price);
+               TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+               TextView typeTextView = (TextView) view.findViewById(R.id.type);
+               TextView saNamTextView = (TextView) view.findViewById(R.id.supplier_n);
+               TextView saPhoneTextView = (TextView) view.findViewById(R.id.supplier_p);
 
-                        // Read the pet attributes from the Cursor for the current pet
-                                String bookName = cursor.getString(nameColumnIndex);
-                String petBreed = cursor.getString(breedColumnIndex);
+
+               int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_NAME);
+               int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_PRICE);
+               int quantityColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
+               int typeColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_TYPE);
+               int supplierNameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
+               int supplierPhoneColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+
+
+               // Read the pet attributes from the Cursor for the current pet
+               String bookName = cursor.getString(nameColumnIndex);
+               String bookPrice = cursor.getString(priceColumnIndex);
+               String bookQuantity = cursor.getString(quantityColumnIndex);
+               String bookType = cursor.getString(typeColumnIndex);
+               String bookSupplierN = cursor.getString(supplierNameColumnIndex);
+               String bookSupplierP = cursor.getString(supplierPhoneColumnIndex);
+
+               //final int itemQuantity = Integer.parseInt(petBreed);
 
                // If the pet breed is empty string or null, then use some default text
                // that says "Unknown breed", so the TextView isn't blank.
-                     if (TextUtils.isEmpty(petBreed)) {
-                       petBreed = context.getString(R.string.unknown_breed);
-                }
+              // if (TextUtils.isEmpty(petBreed)) {
+                //   petBreed = context.getString(R.string.unknown_breed);
+              // }
 
-                        // Update the TextViews with the attributes for the current pet
-                                nameTextView.setText(bookName);
-                summaryTextView.setText(petBreed);
-            }
+               // Update the TextViews with the attributes for the current pet
+               nameTextView.setText(bookName);
+               priceTextView.setText(bookPrice);
+               quantityTextView.setText(bookQuantity);
+               typeTextView.setText(bookType);
+               saNamTextView.setText(bookSupplierN);
+               saPhoneTextView.setText(bookSupplierP);
+
+           }
 }
