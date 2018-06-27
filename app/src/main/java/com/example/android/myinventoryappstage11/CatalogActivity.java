@@ -7,6 +7,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -66,23 +67,21 @@ public class CatalogActivity extends AppCompatActivity implements
 
     }
 
-
     /**
      * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
      */
-    private boolean insertBook() {
+    private void  insertBook() {
 
         ContentValues values = new ContentValues();
         values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, "hello");
         values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, "76");
         values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY,"7");
         values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, BookContract.BookEntry.EBOOK);
-        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,"Maic");
+        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,"Amazon");
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,"91383849");
 
         Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
-
-        return true;
+        Log.v("CatalogActivity", "New row URI: " + newUri);
 
     }
 
@@ -109,7 +108,18 @@ public class CatalogActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
-                insertBook();
+//               insertBook();
+                ContentValues values = new ContentValues();
+                values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, "hello");
+                values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, "76");
+                values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY,"7");
+                values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, BookContract.BookEntry.EBOOK);
+                values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,"Amazon");
+                values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,"91383849");
+
+                Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
+                Log.v("CatalogActivity", "New row URI: " + newUri);
+
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:

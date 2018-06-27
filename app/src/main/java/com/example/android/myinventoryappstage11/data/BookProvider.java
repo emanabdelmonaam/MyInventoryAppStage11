@@ -64,7 +64,7 @@ public class BookProvider extends ContentProvider{
         // Figure out if the URI matcher can match the URI to a specific code
         int match = sUriMatcher.match(uri);
         switch (match) {
-            case BOOKS:
+            case (BOOKS):
                 cursor = database.query(BookContract.BookEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 // For the PETS code, query the pets table directly with the given
@@ -72,7 +72,7 @@ public class BookProvider extends ContentProvider{
                 // could contain multiple rows of the pets table.
 
                 break;
-            case BOOK_ID:
+            case (BOOK_ID):
                  selection = BookContract.BookEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
@@ -93,13 +93,13 @@ public class BookProvider extends ContentProvider{
     }
 
     @Override
-    public Uri insert( Uri uri,  ContentValues values) {
+    public Uri insert(Uri uri, ContentValues values) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case BOOKS:
                 return insertBook(uri, values);
             default:
-                throw new IllegalArgumentException("Insertion is not supported for " + uri);
+               throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
     }
 
@@ -110,6 +110,17 @@ public class BookProvider extends ContentProvider{
         if (name == null) {
             throw new IllegalArgumentException("Book requires a name");
         }
+        // If the weight is provided, check that it's greater than or equal to 0 kg
+        Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
+        if (price == null) {
+            throw new IllegalArgumentException("Book requires valid quantity");
+        }
+
+        // If the weight is provided, check that it's greater than or equal to 0 kg
+        Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
+        if (quantity == null) {
+            throw new IllegalArgumentException("Book requires valid quantity");
+        }
 
         // Check that the type is valid
         Integer type = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_TYPE);
@@ -117,25 +128,16 @@ public class BookProvider extends ContentProvider{
             throw new IllegalArgumentException("Book requires valid gender");
         }
 
-        // If the weight is provided, check that it's greater than or equal to 0 kg
-        Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
-        if (quantity == null) {
-            throw new IllegalArgumentException("Book requires valid quantity");
-                }
-        // If the weight is provided, check that it's greater than or equal to 0 kg
-        Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
-        if (price == null) {
-            throw new IllegalArgumentException("Book requires valid quantity");
-        }
-
         String supplierName = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
 
-        String supplierPhoneNumber = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+        Integer supplierPhoneNumber = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
 
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
         // Insert the new pet with the given values
         long id = database.insert(BookContract.BookEntry.TABLE_NAME, null, values);
+
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);

@@ -57,7 +57,7 @@ public class EditorActivity extends AppCompatActivity
      */
     private boolean mBookHasChanged = false;
 
-    private int quantity;
+    private int mquantity;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -166,19 +166,20 @@ public class EditorActivity extends AppCompatActivity
      * Get user input from editor and save new book into database.
      */
     private void saveBook() {
-
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
         String priceBString = mPriceEditText.getText().toString().trim();
-        int priceB = Integer.parseInt(priceBString);
+        // int priceB = Integer.parseInt(priceBString);
         String quantityBString = mQuantityEditText.getText().toString().trim();
-        int quantityB = Integer.parseInt(quantityBString);
+        // int quantityB = Integer.parseInt(quantityBString);
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
-        int supplierPhoneB = Integer.parseInt(supplierPhoneString);
+        //  int supplierPhoneB = Integer.parseInt(supplierPhoneString);
 
-        if (TextUtils.isEmpty(nameString)
+        if (mCurrentBookUri == null
+                //if (TextUtils.isEmpty(nameString)
+                && TextUtils.isEmpty(nameString)
                 && TextUtils.isEmpty(priceBString)
                 && TextUtils.isEmpty(quantityBString)
                 && TextUtils.isEmpty(supplierNameString)
@@ -187,46 +188,62 @@ public class EditorActivity extends AppCompatActivity
             Toast.makeText(this, R.string.you_did_not_add_any_Book,
                     Toast.LENGTH_SHORT).show();
             return;
+            //  mProductCanBeSaved = false;
+            //return mProductCanBeSaved;
         }
+        int priceB = Integer.parseInt(priceBString);
+        int quantityB = Integer.parseInt(quantityBString);
+        int supplierPhoneB = Integer.parseInt(supplierPhoneString);
 
-            // Create a ContentValues object where column names are the keys,
-            // and pet attributes from the editor are the values.
-            ContentValues values = new ContentValues();
 
-            values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, nameString);
-            values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, priceB);
-            values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, quantityB);
-            values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, mType);
-            values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
-            values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneB);
+// Create a ContentValues object where column names are the keys,
+        // and pet attributes from the editor are the values.
+        ContentValues values = new ContentValues();
+
+        values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, nameString);
+        values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, priceB);
+        values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, quantityB);
+        values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, mType);
+        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
+        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneB);
+
+
+           // mProductCanBeSaved = false;
+          //  return mProductCanBeSaved;
+
+
+
+
+
+        // Show a toast message depending on whether or not the insertion was successful
+        if (mCurrentBookUri == null) {
+            // Insert a new pet into the provider, returning the content URI for the new pet.
+            Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
 
             // Show a toast message depending on whether or not the insertion was successful
-            if (mCurrentBookUri == null) {
-
-                // Insert a new pet into the provider, returning the content URI for the new pet.
-                Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
-
-                // Show a toast message depending on whether or not the insertion was successful
-                if (newUri == null) {
-                    // If the new content URI is null, then there was an error with insertion.
-                    Toast.makeText(this, getString(R.string.editor_insert_book_failed),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    // Otherwise, the insertion was successful and we can display a toast.
-                    Toast.makeText(this, getString(R.string.editor_insert_book_successful),
-                            Toast.LENGTH_SHORT).show();
-                }
+            if (newUri == null) {
+                // If the new content URI is null, then there was an error with insertion.
+                Toast.makeText(this, getString(R.string.editor_insert_book_failed),
+                        Toast.LENGTH_SHORT).show();
             } else {
-                int rowsAffected = getContentResolver().update(mCurrentBookUri, values, null, null);
-                if (rowsAffected == 0) {
-                    Toast.makeText(this, getString(R.string.editor_update_book_failed),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, getString(R.string.editor_update_book_successful),
-                            Toast.LENGTH_SHORT).show();
-                }
+
+                // Otherwise, the insertion was successful and we can display a toast.
+                Toast.makeText(this, getString(R.string.editor_insert_book_successful),
+                        Toast.LENGTH_SHORT).show();
             }
+        } else {
+            int rowsAffected = getContentResolver().update(mCurrentBookUri, values, null, null);
+            if (rowsAffected == 0) {
+                Toast.makeText(this, getString(R.string.editor_update_book_failed),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.editor_update_book_successful),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
         finish();
+        //mProductCanBeSaved = true;
+        //return mProductCanBeSaved;
 
     }
 
@@ -261,7 +278,7 @@ public class EditorActivity extends AppCompatActivity
                 saveBook();
 
                 // Exit activity
-                finish();
+                // finish();
                 return true;
 
             // Respond to a click on the "Delete" menu option
@@ -277,15 +294,15 @@ public class EditorActivity extends AppCompatActivity
                 // If the book hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
                 if (!mBookHasChanged) {
-                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                    NavUtils.navigateUpFromSameTask(this);
                     return true;
                 }
 
                 // Otherwise if there are unsaved changes, setup a dialog to warn the user.
                 // Create a click listener to handle the user confirming that
                 // changes should be discarded.
-                OnClickListener discardButtonClickListener =
-                        new OnClickListener() {
+                DialogInterface.OnClickListener discardButtonClickListener =
+                        new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // User clicked "Discard" button, navigate to parent activity.
