@@ -188,8 +188,7 @@ public class EditorActivity extends AppCompatActivity
             Toast.makeText(this, R.string.you_did_not_add_any_Book,
                     Toast.LENGTH_SHORT).show();
             return;
-            //  mProductCanBeSaved = false;
-            //return mProductCanBeSaved;
+
         }
         int priceB = Integer.parseInt(priceBString);
         int quantityB = Integer.parseInt(quantityBString);
@@ -206,13 +205,6 @@ public class EditorActivity extends AppCompatActivity
         values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, mType);
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneB);
-
-
-           // mProductCanBeSaved = false;
-          //  return mProductCanBeSaved;
-
-
-
 
 
         // Show a toast message depending on whether or not the insertion was successful
@@ -242,8 +234,7 @@ public class EditorActivity extends AppCompatActivity
             }
         }
         finish();
-        //mProductCanBeSaved = true;
-        //return mProductCanBeSaved;
+
 
     }
 
