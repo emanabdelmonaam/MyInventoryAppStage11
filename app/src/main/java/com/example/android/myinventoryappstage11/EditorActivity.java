@@ -118,8 +118,8 @@ public class EditorActivity extends AppCompatActivity
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
         setupSpinner();
-       // if(savedInstanceState != null){
-         //   mBookHasChanged = savedInstanceState.getBoolean("mBookHasChanged");
+        // if(savedInstanceState != null){
+        //   mBookHasChanged = savedInstanceState.getBoolean("mBookHasChanged");
         //}
     }
 
@@ -275,9 +275,9 @@ public class EditorActivity extends AppCompatActivity
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
 
-               // Pop up confirmation dialog for deletion
-               showDeleteConfirmationDialog();
-            return true;
+                // Pop up confirmation dialog for deletion
+                showDeleteConfirmationDialog();
+                return true;
 
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
@@ -417,37 +417,37 @@ public class EditorActivity extends AppCompatActivity
 
     }
 
-        /**
-         * Show a dialog that warns the user there are unsaved changes that will be lost
-         * if they continue leaving the editor.
-         *
-         * @param discardButtonClickListener is the click listener for what to do when
-         *                                   the user confirms they want to discard their changes
-         */
+    /**
+     * Show a dialog that warns the user there are unsaved changes that will be lost
+     * if they continue leaving the editor.
+     *
+     * @param discardButtonClickListener is the click listener for what to do when
+     *                                   the user confirms they want to discard their changes
+     */
 
-        private void showUnsavedChangesDialog(
-                DialogInterface.OnClickListener discardButtonClickListener) {
+    private void showUnsavedChangesDialog(
+            DialogInterface.OnClickListener discardButtonClickListener) {
 
-            // Create an AlertDialog.Builder and set the message, and click listeners
-            // for the postivie and negative buttons on the dialog.
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.unsaved_changes_dialog_msg);
-            builder.setPositiveButton(R.string.discard, discardButtonClickListener);
-            builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.unsaved_changes_dialog_msg);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
 
-                    // User clicked the "Keep editing" button, so dismiss the dialog
-                    // and continue editing the book.
-                    if (dialog != null) {
-                        dialog.dismiss();
-                    }
+                // User clicked the "Keep editing" button, so dismiss the dialog
+                // and continue editing the book.
+                if (dialog != null) {
+                    dialog.dismiss();
                 }
-            });
+            }
+        });
 
-            // Create and show the AlertDialog
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        }
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
     /**
      * Perform the deletion of the pet in the database.
@@ -473,15 +473,15 @@ public class EditorActivity extends AppCompatActivity
 
     private void deleteBook() {
 
-            int rowsDeleted = getContentResolver().delete(mCurrentBookUri, null, null);
+        int rowsDeleted = getContentResolver().delete(mCurrentBookUri, null, null);
 
-            if (rowsDeleted == 0) {
-                Toast.makeText(this, getString(R.string.editor_delete_book_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, getString(R.string.editor_delete_book_successful),
-                        Toast.LENGTH_SHORT).show();
-            }
+        if (rowsDeleted == 0) {
+            Toast.makeText(this, getString(R.string.editor_delete_book_failed),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, getString(R.string.editor_delete_book_successful),
+                    Toast.LENGTH_SHORT).show();
+        }
         finish();
     }
 }

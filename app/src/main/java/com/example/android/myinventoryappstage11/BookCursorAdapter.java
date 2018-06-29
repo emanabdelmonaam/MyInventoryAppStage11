@@ -21,85 +21,85 @@ import com.example.android.myinventoryappstage11.data.BookContract;
  */
 public class BookCursorAdapter extends CursorAdapter {
 
-     /**
-      * Constructs a new {@link BookCursorAdapter}.
-      *
-      * @param context The context
-      * @param c       The cursor from which to get the data.
-      */
-            public BookCursorAdapter(Context context, Cursor c) {
-                super(context, c, 0 /* flags */);
-            }
-
-            /**
-      * Makes a new blank list item view. No data is set (or bound) to the views yet.
-      *
-      * @param context app context
-      * @param cursor  The cursor from which to get the data. The cursor is already
-      *                moved to the correct position.
-      * @param parent  The parent to which the new view is attached to
-      * @return the newly created list item view.
-      */
-           @Override
-   public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                // Inflate a list item view using the layout specified in list_item.xml
-                        return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
-            }
+    /**
+     * Constructs a new {@link BookCursorAdapter}.
+     *
+     * @param context The context
+     * @param c       The cursor from which to get the data.
+     */
+    public BookCursorAdapter(Context context, Cursor c) {
+        super(context, c, 0 /* flags */);
+    }
 
     /**
-      * This method binds the pet data (in the current row pointed to by cursor) to the given
-      * list item layout. For example, the name for the current pet can be set on the name TextView
-      * in the list item layout.
-      *
-      * @param view    Existing view, returned earlier by newView() method
-      * @param context app context
-      * @param cursor  The cursor from which to get the data. The cursor is already moved to the
-      *                correct row.
-      */
-           @Override
+     * Makes a new blank list item view. No data is set (or bound) to the views yet.
+     *
+     * @param context app context
+     * @param cursor  The cursor from which to get the data. The cursor is already
+     *                moved to the correct position.
+     * @param parent  The parent to which the new view is attached to
+     * @return the newly created list item view.
+     */
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        // Inflate a list item view using the layout specified in list_item.xml
+        return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+    }
+
+    /**
+     * This method binds the pet data (in the current row pointed to by cursor) to the given
+     * list item layout. For example, the name for the current pet can be set on the name TextView
+     * in the list item layout.
+     *
+     * @param view    Existing view, returned earlier by newView() method
+     * @param context app context
+     * @param cursor  The cursor from which to get the data. The cursor is already moved to the
+     *                correct row.
+     */
+    @Override
     public void bindView(View view, Context context, Cursor cursor) {
-               String currentId = cursor.getString(cursor.getColumnIndexOrThrow(BookContract.BookEntry._ID));
-               final Uri currentUri = ContentUris.withAppendedId(BookContract.BookEntry.CONTENT_URI, Long.parseLong(currentId));
+        String currentId = cursor.getString(cursor.getColumnIndexOrThrow(BookContract.BookEntry._ID));
+        final Uri currentUri = ContentUris.withAppendedId(BookContract.BookEntry.CONTENT_URI, Long.parseLong(currentId));
 
-               TextView nameTextView = (TextView) view.findViewById(R.id.name);
-               TextView priceTextView = (TextView) view.findViewById(R.id.price);
-               TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
-               TextView typeTextView = (TextView) view.findViewById(R.id.type);
-               TextView saNamTextView = (TextView) view.findViewById(R.id.supplier_n);
-               TextView saPhoneTextView = (TextView) view.findViewById(R.id.supplier_p);
-
-
-               int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_NAME);
-               int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_PRICE);
-               int quantityColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
-               int typeColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_TYPE);
-               int supplierNameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
-               int supplierPhoneColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+        TextView nameTextView = (TextView) view.findViewById(R.id.name);
+        TextView priceTextView = (TextView) view.findViewById(R.id.price);
+        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        TextView typeTextView = (TextView) view.findViewById(R.id.type);
+        TextView saNamTextView = (TextView) view.findViewById(R.id.supplier_n);
+        TextView saPhoneTextView = (TextView) view.findViewById(R.id.supplier_p);
 
 
-               // Read the pet attributes from the Cursor for the current pet
-               String bookName = cursor.getString(nameColumnIndex);
-               String bookPrice = cursor.getString(priceColumnIndex);
-               String bookQuantity = cursor.getString(quantityColumnIndex);
-               String bookType = cursor.getString(typeColumnIndex);
-               String bookSupplierN = cursor.getString(supplierNameColumnIndex);
-               String bookSupplierP = cursor.getString(supplierPhoneColumnIndex);
+        int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_NAME);
+        int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_PRICE);
+        int quantityColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
+        int typeColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_TYPE);
+        int supplierNameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
+        int supplierPhoneColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
 
-               //final int itemQuantity = Integer.parseInt(petBreed);
 
-               // If the pet breed is empty string or null, then use some default text
-               // that says "Unknown breed", so the TextView isn't blank.
-              // if (TextUtils.isEmpty(petBreed)) {
-                //   petBreed = context.getString(R.string.unknown_breed);
-              // }
+        // Read the pet attributes from the Cursor for the current pet
+        String bookName = cursor.getString(nameColumnIndex);
+        String bookPrice = cursor.getString(priceColumnIndex);
+        String bookQuantity = cursor.getString(quantityColumnIndex);
+        String bookType = cursor.getString(typeColumnIndex);
+        String bookSupplierN = cursor.getString(supplierNameColumnIndex);
+        String bookSupplierP = cursor.getString(supplierPhoneColumnIndex);
 
-               // Update the TextViews with the attributes for the current pet
-               nameTextView.setText(bookName);
-               priceTextView.setText(bookPrice);
-               quantityTextView.setText(bookQuantity);
-               typeTextView.setText(bookType);
-               saNamTextView.setText(bookSupplierN);
-               saPhoneTextView.setText(bookSupplierP);
+        //final int itemQuantity = Integer.parseInt(petBreed);
 
-           }
+        // If the pet breed is empty string or null, then use some default text
+        // that says "Unknown breed", so the TextView isn't blank.
+        // if (TextUtils.isEmpty(petBreed)) {
+        //   petBreed = context.getString(R.string.unknown_breed);
+        // }
+
+        // Update the TextViews with the attributes for the current pet
+        nameTextView.setText(bookName);
+        priceTextView.setText(bookPrice);
+        quantityTextView.setText(bookQuantity);
+        typeTextView.setText(bookType);
+        saNamTextView.setText(bookSupplierN);
+        saPhoneTextView.setText(bookSupplierP);
+
+    }
 }

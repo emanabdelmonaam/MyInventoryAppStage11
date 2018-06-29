@@ -139,6 +139,7 @@ public class CatalogActivity extends AppCompatActivity implements
                 BookContract.BookEntry.COLUMN_BOOK_NAME,
                 BookContract.BookEntry.COLUMN_BOOK_PRICE,
                 BookContract.BookEntry.COLUMN_BOOK_QUANTITY,
+                BookContract.BookEntry.COLUMN_BOOK_TYPE,
                 BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
                 BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE};
 
@@ -163,4 +164,3 @@ public class CatalogActivity extends AppCompatActivity implements
         mCursorAdabter.swapCursor(null);
     }
 }
-

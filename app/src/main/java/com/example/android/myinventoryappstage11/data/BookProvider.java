@@ -73,7 +73,7 @@ public class BookProvider extends ContentProvider{
 
                 break;
             case (BOOK_ID):
-                 selection = BookContract.BookEntry._ID + "=?";
+                selection = BookContract.BookEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
                 // This will perform a query on the pets table where the _id equals 3 to return a
@@ -99,7 +99,7 @@ public class BookProvider extends ContentProvider{
             case BOOKS:
                 return insertBook(uri, values);
             default:
-               throw new IllegalArgumentException("Insertion is not supported for " + uri);
+                throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
     }
 
@@ -210,7 +210,7 @@ public class BookProvider extends ContentProvider{
 
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME)) {
             String supplierName = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
-            }
+        }
 
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE)) {
             Integer supplierPhone = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
@@ -240,7 +240,7 @@ public class BookProvider extends ContentProvider{
         return rowsUpdated;
     }
 
-@Override
+    @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
 
         // Get writeable database
@@ -250,44 +250,44 @@ public class BookProvider extends ContentProvider{
         int rowsDeleted;
 
         final int match = sUriMatcher.match(uri);
-         switch (match) {
-                    case BOOKS:
-                        // Delete all rows that match the selection and selection args
-                        rowsDeleted = database.delete(BookContract.BookEntry.TABLE_NAME, selection, selectionArgs);
-                        break;
+        switch (match) {
+            case BOOKS:
+                // Delete all rows that match the selection and selection args
+                rowsDeleted = database.delete(BookContract.BookEntry.TABLE_NAME, selection, selectionArgs);
+                break;
 
-                    case BOOK_ID:
-                        // Delete a single row given by the ID in the URI
-                        selection = BookContract.BookEntry._ID + "=?";
-                        selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+            case BOOK_ID:
+                // Delete a single row given by the ID in the URI
+                selection = BookContract.BookEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
-                        rowsDeleted = database.delete(BookContract.BookEntry.TABLE_NAME, selection, selectionArgs);
-                        break;
+                rowsDeleted = database.delete(BookContract.BookEntry.TABLE_NAME, selection, selectionArgs);
+                break;
 
-                    default:
-                        throw new IllegalArgumentException("Deletion is not supported for " + uri);
-         }
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
 
-            // If 1 or more rows were deleted, then notify all listeners that the data at the
-           // given URI has changed
-         if (rowsDeleted != 0) {
-         getContext().getContentResolver().notifyChange(uri, null);
-         }
+        // If 1 or more rows were deleted, then notify all listeners that the data at the
+        // given URI has changed
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
 
-         // Return the number of rows deleted
-         return rowsDeleted;
+        // Return the number of rows deleted
+        return rowsDeleted;
     }
 
-@Override
+    @Override
     public String getType(Uri uri) {
-                final int match = sUriMatcher.match(uri);
-                switch (match) {
-                    case BOOKS:
-                        return BookContract.BookEntry.CONTENT_LIST_TYPE;
-                    case BOOK_ID:
-                        return BookContract.BookEntry.CONTENT_ITEM_TYPE;
-                    default:
-                        throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
-                }
-            }
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case BOOKS:
+                return BookContract.BookEntry.CONTENT_LIST_TYPE;
+            case BOOK_ID:
+                return BookContract.BookEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
+    }
+}
