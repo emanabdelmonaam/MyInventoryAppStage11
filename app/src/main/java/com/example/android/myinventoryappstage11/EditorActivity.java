@@ -251,8 +251,6 @@ public class EditorActivity extends AppCompatActivity
        finish();
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
@@ -284,7 +282,6 @@ public class EditorActivity extends AppCompatActivity
                 saveBook();
 
                 // Exit activity
-                // finish();
                 return true;
 
             // Respond to a click on the "Delete" menu option
