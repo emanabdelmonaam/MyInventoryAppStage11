@@ -7,7 +7,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,15 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.example.android.myinventoryappstage11.data.BookContract;
 
 public class CatalogActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int BOOK_LOADER = 1;
-    private BookCursorAdapter mCursorAdabter;
-
+    private BookCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,32 +43,30 @@ public class CatalogActivity extends AppCompatActivity implements
         ListView bookListView = findViewById(R.id.list);
 
         View emptyView = findViewById(R.id.empty_view);
-
         bookListView.setEmptyView(emptyView);
 
-        mCursorAdabter= new BookCursorAdapter(this, null);
-        bookListView.setAdapter(mCursorAdabter);
+        mCursorAdapter= new BookCursorAdapter(this, null);
+        bookListView.setAdapter(mCursorAdapter);
 
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent =new Intent(CatalogActivity.this, EditorActivity.class);
-                Uri currentProductUri = ContentUris.withAppendedId(BookContract.BookEntry.CONTENT_URI, id);
-                intent.setData(currentProductUri);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                Uri currentBookUri = ContentUris.withAppendedId(BookContract.BookEntry.CONTENT_URI, id);
+                intent.setData(currentBookUri);
                 startActivity(intent);
             }
         });
 
+
         //kick off the loader
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
-
     }
 
     /**
      * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
      */
     private void  insertBook() {
-
         ContentValues values = new ContentValues();
         values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, "hello");
         values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, "76");
@@ -81,8 +76,6 @@ public class CatalogActivity extends AppCompatActivity implements
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,"91383849");
 
         Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
-        Log.v("CatalogActivity", "New row URI: " + newUri);
-
     }
 
     /**
@@ -96,6 +89,7 @@ public class CatalogActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
         // This adds menu items to the app bar.
         getMenuInflater().inflate(R.menu.menu_catalog, menu);
@@ -108,18 +102,7 @@ public class CatalogActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
-//               insertBook();
-                ContentValues values = new ContentValues();
-                values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, "hello");
-                values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, "76");
-                values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY,"7");
-                values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, BookContract.BookEntry.EBOOK);
-                values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,"Amazon");
-                values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,"91383849");
-
-                Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
-                Log.v("CatalogActivity", "New row URI: " + newUri);
-
+                insertBook();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
@@ -154,13 +137,15 @@ public class CatalogActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
         // Update {@link BookCursorAdapter} with this new cursor containing updated book data
-        mCursorAdabter.swapCursor(data);
+        mCursorAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+
         // Callback called when the data needs to be deleted
-        mCursorAdabter.swapCursor(null);
+        mCursorAdapter.swapCursor(null);
     }
 }

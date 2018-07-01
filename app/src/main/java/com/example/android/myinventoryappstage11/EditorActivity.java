@@ -5,11 +5,9 @@ import android.content.ContentValues;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -25,7 +23,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.android.myinventoryappstage11.data.BookContract;
-import com.example.android.myinventoryappstage11.data.BookDbHelper;
 
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -56,8 +53,6 @@ public class EditorActivity extends AppCompatActivity
      * Boolean flag that keeps track of whether the book has been edited (true) or not (false)
      */
     private boolean mBookHasChanged = false;
-
-    private int mquantity;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -96,7 +91,6 @@ public class EditorActivity extends AppCompatActivity
             // Initialize a loader to read the book data from the database
             // and display the current values in the editor
             getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null,  this);
-
         }
 
         // Find all relevant views that we will need to read user input from
@@ -118,9 +112,6 @@ public class EditorActivity extends AppCompatActivity
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
         setupSpinner();
-        // if(savedInstanceState != null){
-        //   mBookHasChanged = savedInstanceState.getBoolean("mBookHasChanged");
-        //}
     }
 
     /**
@@ -166,19 +157,16 @@ public class EditorActivity extends AppCompatActivity
      * Get user input from editor and save new book into database.
      */
     private void saveBook() {
+
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
         String nameString = mNameEditText.getText().toString().trim();
         String priceBString = mPriceEditText.getText().toString().trim();
-        // int priceB = Integer.parseInt(priceBString);
         String quantityBString = mQuantityEditText.getText().toString().trim();
-        // int quantityB = Integer.parseInt(quantityBString);
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
-        //  int supplierPhoneB = Integer.parseInt(supplierPhoneString);
 
         if (mCurrentBookUri == null
-                //if (TextUtils.isEmpty(nameString)
                 && TextUtils.isEmpty(nameString)
                 && TextUtils.isEmpty(priceBString)
                 && TextUtils.isEmpty(quantityBString)
@@ -186,25 +174,52 @@ public class EditorActivity extends AppCompatActivity
                 && TextUtils.isEmpty(supplierPhoneString)
                 && mType == BookContract.BookEntry.ALL) {
             Toast.makeText(this, R.string.you_did_not_add_any_Book,
-                    Toast.LENGTH_SHORT).show();
+            Toast.LENGTH_SHORT).show();
             return;
-
         }
-        int priceB = Integer.parseInt(priceBString);
-        int quantityB = Integer.parseInt(quantityBString);
-        int supplierPhoneB = Integer.parseInt(supplierPhoneString);
-
 
 // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
 
+        if (TextUtils.isEmpty(nameString)) {
+            Toast.makeText(this, getString(R.string.wrong_name),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
         values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, nameString);
-        values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, priceB);
-        values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, quantityB);
+
+        if (TextUtils.isEmpty(priceBString)) {
+            Toast.makeText(this, getString(R.string.wrong_price),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, priceBString);
+
+        if (TextUtils.isEmpty(quantityBString)) {
+            Toast.makeText(this, getString(R.string.wrong_quantity),
+                    Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+        values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, quantityBString);
+
         values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, mType);
+
+        if (TextUtils.isEmpty(supplierNameString)) {
+            Toast.makeText(this, getString(R.string.wrong_supplier_name),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
-        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneB);
+
+        if (TextUtils.isEmpty(supplierPhoneString)) {
+            Toast.makeText(this, getString(R.string.wrong_supplier_phone),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneString);
 
 
         // Show a toast message depending on whether or not the insertion was successful
@@ -233,10 +248,10 @@ public class EditorActivity extends AppCompatActivity
                         Toast.LENGTH_SHORT).show();
             }
         }
-        finish();
-
-
+       finish();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
