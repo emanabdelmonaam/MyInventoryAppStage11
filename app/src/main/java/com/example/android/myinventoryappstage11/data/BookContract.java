@@ -4,8 +4,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.content.ContentResolver;
 
-
-
 public final class BookContract {
 
     // To prevent someone from accidentally instantiating the contract class,
@@ -59,7 +57,6 @@ public final class BookContract {
         /** Name of database table*/
         public final static String TABLE_NAME = "Books";
         public final static String _ID = BaseColumns._ID;
-
         public final static String COLUMN_BOOK_NAME ="name";
         public final static String COLUMN_BOOK_PRICE ="price";
         public final static String COLUMN_BOOK_QUANTITY ="quantity";
@@ -73,7 +70,6 @@ public final class BookContract {
         public static final int ALL = 0;
         public static final int EBOOK = 1;
         public static final int PAPER = 2;
-
 
         public static boolean isValidType(int book_type) {
             if (book_type == ALL || book_type == EBOOK || book_type == PAPER) {

@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.android.myinventoryappstage11.data.BookContract;
 
 /**
@@ -69,7 +67,7 @@ public class BookCursorAdapter extends CursorAdapter {
 
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
-        final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
         TextView typeTextView = (TextView) view.findViewById(R.id.type);
         TextView saNamTextView = (TextView) view.findViewById(R.id.supplier_n);
         TextView saPhoneTextView = (TextView) view.findViewById(R.id.supplier_p);
@@ -81,7 +79,6 @@ public class BookCursorAdapter extends CursorAdapter {
         int typeColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_TYPE);
         int supplierNameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
         int supplierPhoneColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
-
 
         // Read the pet attributes from the Cursor for the current pet
         String bookName = cursor.getString(nameColumnIndex);

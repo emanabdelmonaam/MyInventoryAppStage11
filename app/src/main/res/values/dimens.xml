@@ -2,9 +2,13 @@
     <!-- Margin around the floating action button in CatalogActivity -->
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="activity_margin16">16dp</dimen>
+    <dimen name="activity_margin8">8dp</dimen>
+    <dimen name="activity_margin112">112dp</dimen>
     <dimen name="editor_padding_text6">6dp</dimen>
     <dimen name="editor_width0">0dp</dimen>
     <dimen name="editor_weight1">1</dimen>
     <dimen name="editor_weight2">2</dimen>
     <dimen name="text_size">14sp</dimen>
+    <dimen name="text_size2">17sp</dimen>
+
 </resources>

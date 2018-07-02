@@ -3,16 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorRedPrimary">#F0514B</color>
-
-    <!-- Darker variant for the status bar and contextual app bars -->
     <color name="colorRedDark">#C0403C</color>
-
-    <!-- Accent color for UI controls like checkboxes and text fields -->
     <color name="colorAccent">#F0514B</color>
-
-    <!-- Primary color for the editor -->
     <color name="editorColorPrimary">#2D3640</color>
-
-    <!-- Primary dark color for the editor -->
     <color name="editorColorPrimaryDark">#394450</color>
+    <color name="colorGray">#AEB6BD</color>
+
+
+
 </resources>

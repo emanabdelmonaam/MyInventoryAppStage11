@@ -58,7 +58,6 @@ public class CatalogActivity extends AppCompatActivity implements
             }
         });
 
-
         //kick off the loader
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
     }
@@ -77,7 +76,6 @@ public class CatalogActivity extends AppCompatActivity implements
 
         Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
         Log.v("CatalogActivity", "New row URI: " + newUri);
-
     }
 
     /**
@@ -112,6 +110,7 @@ public class CatalogActivity extends AppCompatActivity implements
                 //getContentResolver().delete(BookContract.BookEntry.CONTENT_URI, null, null);
                 return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

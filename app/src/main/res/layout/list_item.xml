@@ -1,77 +1,52 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    style="@style/list_main"
     android:descendantFocusability="blocksDescendants"
     android:padding="@dimen/activity_margin16">
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:fontFamily="sans-serif-medium"
-        android:text="@string/book_name"
+        style="@style/list_text_name"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="#2B3D4D"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="112dp"
+        style="@style/list_text_price"
         android:fontFamily="sans-serif"
-        android:text="@string/book_price"
-        android:textColor="#AEB6BD"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintLeft_toRightOf="@id/name" />
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        style="@style/list_layout"
         app:layout_constraintTop_toBottomOf="@id/name">
         <TextView
             android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            style="@style/list_text"
             android:fontFamily="sans-serif"
             android:text="@string/book_type"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD" />
+            android:textAppearance="?android:textAppearanceSmall"/>
         <TextView
             android:id="@+id/quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            style="@style/list_text"
             android:fontFamily="sans-serif"
             android:text="@string/quantity"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD" />
+            android:textAppearance="?android:textAppearanceSmall"/>
         <TextView
             android:id="@+id/supplier_n"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            style="@style/list_text"
             android:fontFamily="sans-serif"
             android:text="@string/supplier_name"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD" />
+            android:textAppearance="?android:textAppearanceSmall"/>
         <TextView
             android:id="@+id/supplier_p"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            style="@style/list_text"
             android:fontFamily="sans-serif"
             android:text="@string/supplier_phone"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD" />
+            android:textAppearance="?android:textAppearanceSmall"/>
         <Button
             android:id="@+id/buy_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Buy a book" />
+            android:layout_gravity="center"
+            style="@style/list_button"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

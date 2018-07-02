@@ -173,12 +173,13 @@ public class EditorActivity extends AppCompatActivity
                 && TextUtils.isEmpty(supplierNameString)
                 && TextUtils.isEmpty(supplierPhoneString)
                 && mType == BookContract.BookEntry.ALL) {
+
             Toast.makeText(this, R.string.you_did_not_add_any_Book,
             Toast.LENGTH_SHORT).show();
             return;
         }
 
-// Create a ContentValues object where column names are the keys,
+         // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
 
@@ -187,6 +188,7 @@ public class EditorActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
         values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, nameString);
 
         if (TextUtils.isEmpty(priceBString)) {
@@ -194,6 +196,7 @@ public class EditorActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
         values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, priceBString);
 
         if (TextUtils.isEmpty(quantityBString)) {
@@ -202,6 +205,7 @@ public class EditorActivity extends AppCompatActivity
             return;
 
         }
+
         values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, quantityBString);
 
         values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, mType);
@@ -211,6 +215,7 @@ public class EditorActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME, supplierNameString);
 
         if (TextUtils.isEmpty(supplierPhoneString)) {
@@ -238,8 +243,8 @@ public class EditorActivity extends AppCompatActivity
                 Toast.makeText(this, getString(R.string.editor_insert_book_successful),
                         Toast.LENGTH_SHORT).show();
             }
-        } else {
-            int rowsUpdate = getContentResolver().update(mCurrentBookUri, values,null,null);
+            } else {
+             int rowsUpdate = getContentResolver().update(mCurrentBookUri, values,null,null);
 
             if (rowsUpdate == 0) {
                 Toast.makeText(this, getString(R.string.editor_update_book_failed),
@@ -281,7 +286,6 @@ public class EditorActivity extends AppCompatActivity
 
                 // Save Book to database
                 saveBook();
-                 finish();
                 // Exit activity
                 return true;
 
@@ -470,6 +474,7 @@ public class EditorActivity extends AppCompatActivity
                 deleteBook();
             }
         });
+
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (dialog != null) {
@@ -477,12 +482,12 @@ public class EditorActivity extends AppCompatActivity
                 }
             }
         });
+
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
 
     private void deleteBook() {
-
         int rowsDeleted = getContentResolver().delete(mCurrentBookUri, null, null);
 
         if (rowsDeleted == 0) {
@@ -492,6 +497,7 @@ public class EditorActivity extends AppCompatActivity
             Toast.makeText(this, getString(R.string.editor_delete_book_successful),
                     Toast.LENGTH_SHORT).show();
         }
+
         finish();
     }
 }
