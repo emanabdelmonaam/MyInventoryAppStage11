@@ -239,8 +239,9 @@ public class EditorActivity extends AppCompatActivity
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            int rowsAffected = getContentResolver().update(mCurrentBookUri, values, null, null);
-            if (rowsAffected == 0) {
+            int rowsUpdate = getContentResolver().update(mCurrentBookUri, values,null,null);
+
+            if (rowsUpdate == 0) {
                 Toast.makeText(this, getString(R.string.editor_update_book_failed),
                         Toast.LENGTH_SHORT).show();
             } else {
@@ -280,7 +281,7 @@ public class EditorActivity extends AppCompatActivity
 
                 // Save Book to database
                 saveBook();
-
+                 finish();
                 // Exit activity
                 return true;
 
@@ -297,7 +298,7 @@ public class EditorActivity extends AppCompatActivity
                 // If the book hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
                 if (!mBookHasChanged) {
-                    NavUtils.navigateUpFromSameTask(this);
+                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
                     return true;
                 }
 
@@ -421,11 +422,8 @@ public class EditorActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public void onLoaderReset(android.content.Loader<Cursor> loader) {
-
-
 
     }
 

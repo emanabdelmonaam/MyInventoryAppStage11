@@ -1,4 +1,5 @@
 package com.example.android.myinventoryappstage11;
+
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,8 +44,12 @@ public class BookCursorAdapter extends CursorAdapter {
      */
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
+
         // Inflate a list item view using the layout specified in list_item.xml
-        return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+        View emptyListItem = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+
+        return emptyListItem;
+        //return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
     }
 
     /**
@@ -57,13 +63,13 @@ public class BookCursorAdapter extends CursorAdapter {
      *                correct row.
      */
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         String currentId = cursor.getString(cursor.getColumnIndexOrThrow(BookContract.BookEntry._ID));
         final Uri currentUri = ContentUris.withAppendedId(BookContract.BookEntry.CONTENT_URI, Long.parseLong(currentId));
 
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
-        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        final TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
         TextView typeTextView = (TextView) view.findViewById(R.id.type);
         TextView saNamTextView = (TextView) view.findViewById(R.id.supplier_n);
         TextView saPhoneTextView = (TextView) view.findViewById(R.id.supplier_p);
@@ -85,14 +91,6 @@ public class BookCursorAdapter extends CursorAdapter {
         String bookSupplierN = cursor.getString(supplierNameColumnIndex);
         String bookSupplierP = cursor.getString(supplierPhoneColumnIndex);
 
-        //final int itemQuantity = Integer.parseInt(petBreed);
-
-        // If the pet breed is empty string or null, then use some default text
-        // that says "Unknown breed", so the TextView isn't blank.
-        // if (TextUtils.isEmpty(petBreed)) {
-        //   petBreed = context.getString(R.string.unknown_breed);
-        // }
-
         // Update the TextViews with the attributes for the current pet
         nameTextView.setText(bookName);
         priceTextView.setText(bookPrice);
@@ -101,5 +99,27 @@ public class BookCursorAdapter extends CursorAdapter {
         saNamTextView.setText(bookSupplierN);
         saPhoneTextView.setText(bookSupplierP);
 
+        final int itemQuantity =Integer.parseInt(bookQuantity);
+
+        Button buyButton = view.findViewById(R.id.buy_button);
+        buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (itemQuantity > 0) {
+                    ContentValues newValues = new ContentValues();
+
+                    int newItemQuantity = itemQuantity - 1;
+
+                    newValues.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY, newItemQuantity);
+
+                    int newQuantity = context.getContentResolver().update(currentUri, newValues, null, null);
+
+                    if (newQuantity == 0)
+                        Toast.makeText(context, R.string.wrong_quantity, Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(context, R.string.wrong_quantity, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

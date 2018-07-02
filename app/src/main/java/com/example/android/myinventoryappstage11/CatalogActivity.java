@@ -76,6 +76,8 @@ public class CatalogActivity extends AppCompatActivity implements
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,"91383849");
 
         Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
+        Log.v("CatalogActivity", "New row URI: " + newUri);
+
     }
 
     /**

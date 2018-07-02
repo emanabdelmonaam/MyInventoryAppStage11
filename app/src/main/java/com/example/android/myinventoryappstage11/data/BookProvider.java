@@ -163,7 +163,8 @@ public class BookProvider extends ContentProvider{
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = BookContract.BookEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri))
+                };
                 return updateBook(uri, values, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -192,7 +193,7 @@ public class BookProvider extends ContentProvider{
             Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
             if (price == null || !BookContract.BookEntry.isValidType(price)) {
 
-                throw new IllegalArgumentException("Book requires valid price ");
+                throw new IllegalArgumentException("Book requires valid price");
             }
         }
 
