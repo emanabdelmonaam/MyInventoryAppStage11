@@ -133,7 +133,6 @@ public class EditorActivity extends AppCompatActivity
         setupSpinner();
         increaseButton();
         decreaseButton();
-       // callButton();
     }
 
     private void increaseButton() {
@@ -166,19 +165,6 @@ public class EditorActivity extends AppCompatActivity
             }
         });
     }
-    private void callButton(){
-        mCallSupplier.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String supplierPhoneString = mCallSupplier.getText().toString();
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + supplierPhoneString));
-                startActivity(intent);
-            }
-        });
-
-    }
-
     /**
      * Setup the dropdown spinner that allows the user to select the gender of the pet.
      */
