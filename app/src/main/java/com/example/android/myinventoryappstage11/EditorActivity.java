@@ -49,7 +49,7 @@ public class EditorActivity extends AppCompatActivity
     private EditText mSupplierPhoneEditText;
     private Button mQuantityIncrease;
     private Button mQuantityDecrease;
-
+    private Button mCallSupplier;
     private int mType = BookContract.BookEntry.ALL;
 
     /**
@@ -105,6 +105,7 @@ public class EditorActivity extends AppCompatActivity
         mTypeSpinner = (Spinner) findViewById(R.id.type_of_book);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_book_supplir_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_book_supplier_phone);
+        mCallSupplier =(Button)findViewById(R.id.call_supplier);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -117,10 +118,22 @@ public class EditorActivity extends AppCompatActivity
         mTypeSpinner.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
+        mCallSupplier.setOnTouchListener(mTouchListener);
+
+        mCallSupplier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String supplierPhoneString = mCallSupplier.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + supplierPhoneString));
+                startActivity(intent);
+            }
+        });
 
         setupSpinner();
         increaseButton();
         decreaseButton();
+       // callButton();
     }
 
     private void increaseButton() {
@@ -138,7 +151,6 @@ public class EditorActivity extends AppCompatActivity
         });
     }
 
-
     private void decreaseButton() {
         mQuantityDecrease.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +165,18 @@ public class EditorActivity extends AppCompatActivity
                 mQuantityEditText.setText("" + quantity);
             }
         });
+    }
+    private void callButton(){
+        mCallSupplier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String supplierPhoneString = mCallSupplier.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + supplierPhoneString));
+                startActivity(intent);
+            }
+        });
+
     }
 
     /**

@@ -38,4 +38,6 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="buy_book">BUY BOOK</string>
+    <string name="call">Call</string>
+
 </resources>
