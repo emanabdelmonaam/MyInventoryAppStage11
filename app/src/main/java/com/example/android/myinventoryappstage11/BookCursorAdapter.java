@@ -72,7 +72,6 @@ public class BookCursorAdapter extends CursorAdapter {
         TextView saNamTextView = (TextView) view.findViewById(R.id.supplier_n);
         TextView saPhoneTextView = (TextView) view.findViewById(R.id.supplier_p);
 
-
         int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_NAME);
         int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
