@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -46,6 +47,8 @@ public class EditorActivity extends AppCompatActivity
     private Spinner mTypeSpinner;
     private EditText mSupplierNameEditText;
     private EditText mSupplierPhoneEditText;
+    private Button mQuantityIncrease;
+    private Button mQuantityDecrease;
 
     private int mType = BookContract.BookEntry.ALL;
 
@@ -97,6 +100,8 @@ public class EditorActivity extends AppCompatActivity
         mNameEditText = (EditText) findViewById(R.id.edit_book_name);
         mPriceEditText = (EditText) findViewById(R.id.edit_book_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_book_quantity);
+        mQuantityIncrease = (Button)findViewById((R.id.increase_button));
+        mQuantityDecrease = (Button)findViewById((R.id.decrease_button));
         mTypeSpinner = (Spinner) findViewById(R.id.type_of_book);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_book_supplir_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_book_supplier_phone);
@@ -107,11 +112,47 @@ public class EditorActivity extends AppCompatActivity
         mNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
+        mQuantityIncrease.setOnTouchListener(mTouchListener);
+        mQuantityDecrease.setOnTouchListener(mTouchListener);
         mTypeSpinner.setOnTouchListener(mTouchListener);
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
         setupSpinner();
+        increaseButton();
+        decreaseButton();
+    }
+
+    private void increaseButton() {
+        mQuantityIncrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = 0;
+                if (!TextUtils.isEmpty(mQuantityEditText.getText().toString())) {
+                    quantity = Integer.parseInt(mQuantityEditText.getText().toString());
+                }
+                quantity++;
+                mQuantityEditText.setText("" + quantity);
+
+            }
+        });
+    }
+
+
+    private void decreaseButton() {
+        mQuantityDecrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = 0;
+                if (!TextUtils.isEmpty(mQuantityEditText.getText().toString())) {
+                    quantity = Integer.parseInt(mQuantityEditText.getText().toString());
+                }
+                if (quantity > 0) {
+                    quantity--;
+                }
+                mQuantityEditText.setText("" + quantity);
+            }
+        });
     }
 
     /**
@@ -500,4 +541,5 @@ public class EditorActivity extends AppCompatActivity
 
         finish();
     }
+
 }

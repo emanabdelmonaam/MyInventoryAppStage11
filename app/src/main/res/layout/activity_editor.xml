@@ -20,6 +20,7 @@
                  <EditText
                      android:id="@+id/edit_book_name"
                      style="@style/Editor_edit_text1"
+                     android:inputType="textCapWords"
                      android:fontFamily="sans-serif-condensed"
                      android:hint="Book Name"/>
              </LinearLayout>
@@ -39,6 +40,7 @@
                <EditText
                    android:id="@+id/edit_book_price"
                    style="@style/Editor_edit_text1"
+                   android:inputType="number"
                    android:fontFamily="sans-serif-condensed"
                    android:hint="Book Price"/>
            </LinearLayout>
@@ -55,12 +57,28 @@
               android:textAppearance="?android:textAppearanceSmall"/>
           <LinearLayout
               style="@style/Editor_linear_edit"
+              android:orientation="horizontal"
               android:layout_weight="2">
+              <Button
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/increase_button"
+                  android:layout_weight="1"
+                  android:text="+"/>
               <EditText
                   android:id="@+id/edit_book_quantity"
-                  style="@style/Editor_edit_text1"
+                  style="@style/Editor_edit_text2"
+                  android:inputType="number"
+                  android:layout_weight="2"
+                  android:gravity="center"
                   android:fontFamily="sans-serif-condensed"
                   android:hint="Book Quantity"/>
+              <Button
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:id="@+id/decrease_button"
+                  android:text="-"/>
           </LinearLayout>
       </LinearLayout>
 
@@ -100,6 +118,7 @@
                   <EditText
                       android:id="@+id/edit_book_supplir_name"
                       style="@style/Editor_edit_text1"
+                      android:inputType="text"
                       android:fontFamily="sans-serif-condensed"
                       android:hint="Book Supplier Name"/>
               </LinearLayout>
@@ -121,6 +140,7 @@
                   <EditText
                       android:id="@+id/edit_book_supplier_phone"
                       style="@style/Editor_edit_text1"
+                      android:inputType="phone"
                       android:fontFamily="sans-serif-condensed"
                       android:hint="Book Supplier Phone"/>
               </LinearLayout>

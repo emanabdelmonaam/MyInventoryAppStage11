@@ -62,6 +62,12 @@
         <item name="android:inputType">textCapWords</item>
         <item name="android:textSize">@dimen/text_size</item>
     </style>
+    <style name="Editor_edit_text2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">textCapWords</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
 
     <style name="list_main">
         <item name="android:layout_width">match_parent</item>
