@@ -145,6 +145,16 @@
                       android:hint="Book Supplier Phone"/>
               </LinearLayout>
           </LinearLayout>
+
+      <ImageView
+          android:id="@+id/book_image"
+          android:layout_width="100dp"
+          android:layout_height="100dp"
+          android:layout_gravity="center"
+          android:src="@color/colorPrimary"
+          android:layout_marginTop="@dimen/activity_margin8"/>
+
+
       <Button
           android:id="@+id/call_supplier"
           android:text="@string/call"

@@ -60,18 +60,18 @@ public final class BookContract {
         public final static String COLUMN_BOOK_NAME ="name";
         public final static String COLUMN_BOOK_PRICE ="price";
         public final static String COLUMN_BOOK_QUANTITY ="quantity";
-        public final static String COLUMN_BOOK_TYPE = "book_type";
+        public final static String COLUMN_BOOK_TYPE ="book_type";
         public final static String COLUMN_BOOK_SUPPLIER_NAME ="supplierName";
         public final static String COLUMN_BOOK_SUPPLIER_PHONE ="supplierPhone";
-
+        public final static String COLUMN_BOOK_IMAGE = "image";
         /**
          * Possible values for the type of the book.
          */
-        public static final int ALL = 0;
-        public static final int EBOOK = 1;
-        public static final int PAPER = 2;
+        public static final String ALL ="All" ;
+        public static final String EBOOK = "EBook";
+        public static final String PAPER = "paper";
 
-        public static boolean isValidType(int book_type) {
+        public static boolean isValidType(String book_type) {
             if (book_type == ALL || book_type == EBOOK || book_type == PAPER) {
 
                 return true;

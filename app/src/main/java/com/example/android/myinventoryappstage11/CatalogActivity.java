@@ -65,14 +65,16 @@ public class CatalogActivity extends AppCompatActivity implements
     /**
      * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
      */
+
     private void  insertBook() {
+
         ContentValues values = new ContentValues();
-        values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, "hello");
-        values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, "76");
-        values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY,"7");
+        values.put(BookContract.BookEntry.COLUMN_BOOK_NAME, "mamamia");
+        values.put(BookContract.BookEntry.COLUMN_BOOK_PRICE, "1050");
+        values.put(BookContract.BookEntry.COLUMN_BOOK_QUANTITY,"8");
         values.put(BookContract.BookEntry.COLUMN_BOOK_TYPE, BookContract.BookEntry.EBOOK);
-        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,"Amazon");
-        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,"91383849");
+        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,"ali");
+        values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,"55555555");
 
         Uri newUri = getContentResolver().insert(BookContract.BookEntry.CONTENT_URI, values);
         Log.v("CatalogActivity", "New row URI: " + newUri);
@@ -86,7 +88,6 @@ public class CatalogActivity extends AppCompatActivity implements
         int rowsDeleted = getContentResolver().delete(BookContract.BookEntry.CONTENT_URI, null, null);
         Log.v("CatalogActivity", rowsDeleted + " rows deleted from inventory database");
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -102,11 +103,11 @@ public class CatalogActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
-                insertBook();
+                // insertBook();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                deleteAllBooks();
+                //    deleteAllBooks();
                 //getContentResolver().delete(BookContract.BookEntry.CONTENT_URI, null, null);
                 return true;
         }
@@ -125,7 +126,9 @@ public class CatalogActivity extends AppCompatActivity implements
                 BookContract.BookEntry.COLUMN_BOOK_QUANTITY,
                 BookContract.BookEntry.COLUMN_BOOK_TYPE,
                 BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
-                BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE};
+                BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,
+                BookContract.BookEntry.COLUMN_BOOK_IMAGE
+        };
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context

@@ -1,5 +1,6 @@
 package com.example.android.myinventoryappstage11;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.app.LoaderManager;
@@ -8,22 +9,34 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.android.myinventoryappstage11.data.BookContract;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static com.example.android.myinventoryappstage11.data.BookProvider.LOG_TAG;
 
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -50,7 +63,12 @@ public class EditorActivity extends AppCompatActivity
     private Button mQuantityIncrease;
     private Button mQuantityDecrease;
     private Button mCallSupplier;
-    private int mType = BookContract.BookEntry.ALL;
+    private String mType = BookContract.BookEntry.ALL;
+
+    private String mImageUri;
+    private ImageView mImageView;
+    private static final int SELECT_PHOTO = 100;
+
 
     /**
      * Boolean flag that keeps track of whether the book has been edited (true) or not (false)
@@ -93,19 +111,23 @@ public class EditorActivity extends AppCompatActivity
 
             // Initialize a loader to read the book data from the database
             // and display the current values in the editor
-            getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null,  this);
+            getLoaderManager().initLoader(EXISTING_BOOK_LOADER, null, this);
         }
 
         // Find all relevant views that we will need to read user input from
         mNameEditText = (EditText) findViewById(R.id.edit_book_name);
         mPriceEditText = (EditText) findViewById(R.id.edit_book_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_book_quantity);
-        mQuantityIncrease = (Button)findViewById((R.id.increase_button));
-        mQuantityDecrease = (Button)findViewById((R.id.decrease_button));
+        mQuantityIncrease = (Button) findViewById((R.id.increase_button));
+        mQuantityDecrease = (Button) findViewById((R.id.decrease_button));
         mTypeSpinner = (Spinner) findViewById(R.id.type_of_book);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_book_supplir_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_book_supplier_phone);
-        mCallSupplier =(Button)findViewById(R.id.call_supplier);
+
+        mCallSupplier = (Button) findViewById(R.id.call_supplier);
+
+        mImageView =( ImageView)findViewById(R.id.book_image);
+
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -119,11 +141,92 @@ public class EditorActivity extends AppCompatActivity
         mSupplierNameEditText.setOnTouchListener(mTouchListener);
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
+        mImageView.setOnTouchListener(mTouchListener);
+
         setupSpinner();
         increaseButton();
         decreaseButton();
         callButton();
+        openGallery();
     }
+
+    private void openGallery(){
+        Intent imageIntent;
+
+        if (Build.VERSION.SDK_INT < 19) {
+            imageIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        } else {
+            imageIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            imageIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        }
+
+        imageIntent.setType("image/*");
+        startActivityForResult(imageIntent, SELECT_PHOTO);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case SELECT_PHOTO:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri mUriSelectedImage;
+                    mUriSelectedImage = data.getData();
+                    if (mUriSelectedImage != null) {
+                        mImageUri = mUriSelectedImage.toString();
+                        mImageView.setImageBitmap(getBitmapFromUri(mUriSelectedImage));
+                    }
+                }
+        }
+    }
+
+    public Bitmap getBitmapFromUri(Uri uri) {
+        if (uri == null) {
+            return null;
+        }
+        // Get the dimensions of the View
+        int targetWidth = mImageView.getWidth();
+        int targetHeight = mImageView.getHeight();
+
+        InputStream input = null;
+        try {
+            input = this.getContentResolver().openInputStream(uri);
+
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(input, null, bmOptions);
+            input.close();
+
+            int photoWidth = bmOptions.outWidth;
+            int photoHeight = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            int scaleFactor = Math.min(photoWidth / targetWidth, photoHeight / targetHeight);
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+
+            input = this.getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(input, null, bmOptions);
+            input.close();
+            return bitmap;
+
+        } catch (FileNotFoundException fne) {
+            Log.e(LOG_TAG, "Failed to load image.", fne);
+            return null;
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to load image.", e);
+            return null;
+        } finally {
+            try {
+                input.close();
+            } catch (IOException ioe) {
+
+            }
+        }
+    }
+
 
     private void increaseButton() {
         mQuantityIncrease.setOnClickListener(new View.OnClickListener() {
@@ -213,11 +316,13 @@ public class EditorActivity extends AppCompatActivity
 
         // Read from input fields
         // Use trim to eliminate leading or trailing white space
+        String imageString = mImageUri;
         String nameString = mNameEditText.getText().toString().trim();
         String priceBString = mPriceEditText.getText().toString().trim();
         String quantityBString = mQuantityEditText.getText().toString().trim();
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
+
 
         if (mCurrentBookUri == null
                 && TextUtils.isEmpty(nameString)
@@ -225,14 +330,15 @@ public class EditorActivity extends AppCompatActivity
                 && TextUtils.isEmpty(quantityBString)
                 && TextUtils.isEmpty(supplierNameString)
                 && TextUtils.isEmpty(supplierPhoneString)
-                && mType == BookContract.BookEntry.ALL) {
+                && TextUtils.isEmpty(imageString)
+                && mType == BookContract.BookEntry.ALL){
 
             Toast.makeText(this, R.string.you_did_not_add_any_Book,
-            Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
-         // Create a ContentValues object where column names are the keys,
+        // Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
 
@@ -279,6 +385,8 @@ public class EditorActivity extends AppCompatActivity
 
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneString);
 
+        values.put(BookContract.BookEntry.COLUMN_BOOK_IMAGE, imageString);
+
 
         // Show a toast message depending on whether or not the insertion was successful
         if (mCurrentBookUri == null) {
@@ -296,8 +404,8 @@ public class EditorActivity extends AppCompatActivity
                 Toast.makeText(this, getString(R.string.editor_insert_book_successful),
                         Toast.LENGTH_SHORT).show();
             }
-            } else {
-             int rowsUpdate = getContentResolver().update(mCurrentBookUri, values,null,null);
+        } else {
+            int rowsUpdate = getContentResolver().update(mCurrentBookUri, values,null,null);
 
             if (rowsUpdate == 0) {
                 Toast.makeText(this, getString(R.string.editor_update_book_failed),
@@ -307,7 +415,7 @@ public class EditorActivity extends AppCompatActivity
                         Toast.LENGTH_SHORT).show();
             }
         }
-       finish();
+        finish();
     }
 
     @Override
@@ -410,12 +518,17 @@ public class EditorActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         String[] projection = {
                 BookContract.BookEntry._ID,
+
+                BookContract.BookEntry.COLUMN_BOOK_IMAGE,
+
                 BookContract.BookEntry.COLUMN_BOOK_NAME,
                 BookContract.BookEntry.COLUMN_BOOK_PRICE,
                 BookContract.BookEntry.COLUMN_BOOK_QUANTITY,
                 BookContract.BookEntry.COLUMN_BOOK_TYPE,
                 BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
-                BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE};
+                BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE
+        };
+
 
         return new CursorLoader(this,
                 mCurrentBookUri,
@@ -438,6 +551,8 @@ public class EditorActivity extends AppCompatActivity
         if (cursor.moveToFirst()) {
 
             // Find the columns of pet attributes that we're interested in
+            int imageColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_IMAGE);
+
 
             int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_NAME);
             int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_PRICE);
@@ -446,7 +561,10 @@ public class EditorActivity extends AppCompatActivity
             int supplierNColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
             int supplierPColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
 
+
             // Extract out the value from the Cursor for the given column index
+            String currentImage = cursor.getString(imageColumnIndex);
+
             String currentName = cursor.getString(nameColumnIndex);
             int currentPrice = cursor.getInt(priceColumnIndex);
             int currentQuantity = cursor.getInt(quantityColumnIndex);
@@ -454,12 +572,15 @@ public class EditorActivity extends AppCompatActivity
             String currentSupplierN = cursor.getString(supplierNColumnIndex);
             int currentSupplierP = cursor.getInt(supplierPColumnIndex);
 
+
             // Update the views on the screen with the values from the database
+            final Uri mImageU = Uri.parse(currentImage);
             mNameEditText.setText(currentName);
             mPriceEditText.setText(Integer.toString(currentPrice));
             mQuantityEditText.setText(Integer.toString(currentQuantity));
             mSupplierNameEditText.setText(currentSupplierN);
             mSupplierPhoneEditText.setText(Integer.toString(currentSupplierP));
+
 
             // Gender is a dropdown spinner, so map the constant value from the database
             // into one of the dropdown options (0 is Unknown, 1 is Male, 2 is Female).
@@ -475,8 +596,22 @@ public class EditorActivity extends AppCompatActivity
                     mTypeSpinner.setSelection(0);
                     break;
             }
+
+            mImageView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    try {
+                        mImageView.setImageBitmap(getBitmapFromUri(mImageU));
+                        return true;
+                    } finally {
+                        mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+                    }
+                }
+            });
         }
     }
+
+
 
     @Override
     public void onLoaderReset(android.content.Loader<Cursor> loader) {

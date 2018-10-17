@@ -108,29 +108,35 @@ public class BookProvider extends ContentProvider{
         // Check that the name is not null
         String name = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_NAME);
         if (name == null) {
-            throw new IllegalArgumentException("Book requires a name");
+            throw new IllegalArgumentException("العقد يتطلب الاسم");
         }
         // If the weight is provided, check that it's greater than or equal to 0 kg
         Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
         if (price == null) {
-            throw new IllegalArgumentException("Book requires valid quantity");
+            throw new IllegalArgumentException("العقد يتطلب قيمة الإيجار");
         }
 
         // If the weight is provided, check that it's greater than or equal to 0 kg
         Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
         if (quantity == null) {
-            throw new IllegalArgumentException("Book requires valid quantity");
+            throw new IllegalArgumentException("العقد يتطلب رقم الوحدة");
         }
 
         // Check that the type is valid
-        Integer type = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_TYPE);
+        String type = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_TYPE);
         if (type == null || !BookContract.BookEntry.isValidType(type)) {
-            throw new IllegalArgumentException("Book requires valid gender");
+            throw new IllegalArgumentException("العقد يتطلب نوع العقد");
         }
 
         String supplierName = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
 
         Integer supplierPhoneNumber = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+
+        String image_date = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_IMAGE);
+        if (image_date == null) {
+            throw new IllegalArgumentException("من فضلك أضف صورة العقد");
+        }
+
 
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -183,7 +189,7 @@ public class BookProvider extends ContentProvider{
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_NAME)) {
             String name = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_NAME);
             if (name == null) {
-                throw new IllegalArgumentException("Book requires a name");
+                throw new IllegalArgumentException("name");
             }
         }
 
@@ -192,14 +198,14 @@ public class BookProvider extends ContentProvider{
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_PRICE)) {
             Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
             if (price == null) {
-                throw new IllegalArgumentException("Book requires valid price");
+                throw new IllegalArgumentException("price");
             }
         }
 
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_QUANTITY)) {
             Integer quantity = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
             if (quantity == null) {
-                throw new IllegalArgumentException("Book requires valid quantity");
+                throw new IllegalArgumentException("quantity");
             }
         }
 
@@ -213,6 +219,10 @@ public class BookProvider extends ContentProvider{
 
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE)) {
             Integer supplierPhone = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
+        }
+
+        if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_IMAGE)) {
+            String image_c = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_IMAGE);
         }
 
         // No need to check the breed, any value is valid (including null).
