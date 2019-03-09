@@ -64,6 +64,10 @@ public final class BookContract {
         public final static String COLUMN_BOOK_SUPPLIER_NAME ="supplierName";
         public final static String COLUMN_BOOK_SUPPLIER_PHONE ="supplierPhone";
         public final static String COLUMN_BOOK_IMAGE = "image";
+
+
+        public final static String COLUMN_BOOK_CHICK_ONE ="chick_one";
+        public final static String COLUMN_BOOK_CHICK_TWO ="chick_two";
         /**
          * Possible values for the type of the book.
          */

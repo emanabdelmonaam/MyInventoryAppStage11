@@ -3,6 +3,10 @@
     style="@style/Editor_main"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".EditorActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
   <LinearLayout
         style="@style/Editor_Linear_main"
         android:orientation="vertical">
@@ -151,9 +155,9 @@
           android:layout_width="100dp"
           android:layout_height="100dp"
           android:layout_gravity="center"
+          android:contentDescription="item_pic"
           android:src="@color/colorPrimary"
           android:layout_marginTop="@dimen/activity_margin8"/>
-
 
       <Button
           android:id="@+id/call_supplier"
@@ -162,5 +166,35 @@
           android:layout_width="match_parent"
           android:layout_margin="@dimen/activity_margin8"
           android:layout_height="wrap_content" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:orientation="vertical"
+          android:padding="@dimen/activity_margin16"
+          android:layout_height="wrap_content">
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Gift"
+              android:padding="@dimen/activity_margin16"/>
+          <CheckBox
+              android:id="@+id/checkbox_1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:fontFamily="sans-serif-light"
+              android:padding="@dimen/activity_margin8"
+              android:textSize="@dimen/text_size" />
+
+          <CheckBox
+              android:id="@+id/checkbox_2"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:fontFamily="sans-serif-light"
+              android:padding="@dimen/activity_margin8"
+              android:textSize="@dimen/text_size" />
+
+      </LinearLayout>
   </LinearLayout>
+</ScrollView>
+
 </android.support.constraint.ConstraintLayout>

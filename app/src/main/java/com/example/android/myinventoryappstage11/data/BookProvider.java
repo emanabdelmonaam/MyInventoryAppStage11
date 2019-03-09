@@ -111,7 +111,7 @@ public class BookProvider extends ContentProvider{
             throw new IllegalArgumentException("العقد يتطلب الاسم");
         }
         // If the weight is provided, check that it's greater than or equal to 0 kg
-        Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
+        Float price = values.getAsFloat(BookContract.BookEntry.COLUMN_BOOK_PRICE);
         if (price == null) {
             throw new IllegalArgumentException("العقد يتطلب قيمة الإيجار");
         }
@@ -136,7 +136,6 @@ public class BookProvider extends ContentProvider{
         if (image_date == null) {
             throw new IllegalArgumentException("من فضلك أضف صورة العقد");
         }
-
 
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -196,7 +195,7 @@ public class BookProvider extends ContentProvider{
         // If the {@link PetEntry#COLUMN_PET_GENDER} key is present,
         // check that the gender value is valid.
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_PRICE)) {
-            Integer price = values.getAsInteger(BookContract.BookEntry.COLUMN_BOOK_PRICE);
+            Float price = values.getAsFloat(BookContract.BookEntry.COLUMN_BOOK_PRICE);
             if (price == null) {
                 throw new IllegalArgumentException("price");
             }
@@ -223,6 +222,14 @@ public class BookProvider extends ContentProvider{
 
         if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_IMAGE)) {
             String image_c = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_IMAGE);
+        }
+
+        if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_CHICK_ONE)) {
+            String chickOne = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_CHICK_ONE);
+        }
+
+        if (values.containsKey(BookContract.BookEntry.COLUMN_BOOK_CHICK_TWO)) {
+            String chickTwo = values.getAsString(BookContract.BookEntry.COLUMN_BOOK_CHICK_TWO);
         }
 
         // No need to check the breed, any value is valid (including null).

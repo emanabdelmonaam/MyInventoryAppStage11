@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.android.myinventoryappstage11.data.BookContract;
@@ -71,6 +72,8 @@ public class BookCursorAdapter extends CursorAdapter {
         TextView typeTextView = (TextView) view.findViewById(R.id.type);
         TextView saNamTextView = (TextView) view.findViewById(R.id.supplier_n);
         TextView saPhoneTextView = (TextView) view.findViewById(R.id.supplier_p);
+       // ImageView imageView = (ImageView) view.findViewById(R.id.book_image)
+
 
 
 

@@ -18,7 +18,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
     /**
      * Database version. If you change the database schema, you must increment the database version.
      */
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     /**
      * Constructs a new instance of {@link BookDbHelper}.
@@ -28,6 +28,9 @@ public class BookDbHelper extends SQLiteOpenHelper {
     public BookDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+    private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + BookEntry.TABLE_NAME;
 
     /**
      * This is called when the database is created for the first time.
@@ -44,7 +47,10 @@ public class BookDbHelper extends SQLiteOpenHelper {
                 + BookEntry.COLUMN_BOOK_TYPE + " TEXT ,"
                 + BookEntry.COLUMN_BOOK_SUPPLIER_NAME + " TEXT ,"
                 + BookEntry.COLUMN_BOOK_SUPPLIER_PHONE + " INTEGER ,"
-                + BookEntry.COLUMN_BOOK_IMAGE + " TEXT NOT NULL"
+                + BookEntry.COLUMN_BOOK_IMAGE + " TEXT NOT NULL ,"
+                + BookEntry.COLUMN_BOOK_CHICK_ONE + " Text ,"
+                + BookEntry.COLUMN_BOOK_CHICK_TWO + " Text "
+
                 +");";
 
         // Execute the SQL statement
@@ -56,7 +62,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        // The database is still at version 1, so there's nothing to do be done here.
+        db.execSQL(SQL_DELETE_ENTRIES);
+        onCreate(db);
     }
 }

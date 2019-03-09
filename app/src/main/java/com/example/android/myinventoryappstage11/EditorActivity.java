@@ -26,6 +26,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -35,6 +36,7 @@ import com.example.android.myinventoryappstage11.data.BookContract;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 
 import static com.example.android.myinventoryappstage11.data.BookProvider.LOG_TAG;
 
@@ -69,6 +71,9 @@ public class EditorActivity extends AppCompatActivity
     private ImageView mImageView;
     private static final int SELECT_PHOTO = 100;
 
+    private CheckBox mCheckBoxOne,mCheckBoxTwo;
+    private String mCheckBox1,mCheckBox2;
+
 
     /**
      * Boolean flag that keeps track of whether the book has been edited (true) or not (false)
@@ -84,6 +89,17 @@ public class EditorActivity extends AppCompatActivity
         public boolean onTouch(View view, MotionEvent motionEvent) {
             mBookHasChanged = true;
             return false;
+        }
+    };
+
+    private View.OnClickListener chkListener = new View.OnClickListener(){
+        public void onClick(View v){
+            if(((CheckBox)v).isChecked()){
+                Toast.makeText(getBaseContext(), "click : " + ((CheckBox) v).getText() + " es seleccionado", Toast.LENGTH_SHORT).show();
+
+            }else{
+                Toast.makeText(getBaseContext(),"click : " + ((CheckBox)v).getText() + " es deseleccionado",Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
@@ -123,11 +139,14 @@ public class EditorActivity extends AppCompatActivity
         mTypeSpinner = (Spinner) findViewById(R.id.type_of_book);
         mSupplierNameEditText = (EditText) findViewById(R.id.edit_book_supplir_name);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_book_supplier_phone);
-
         mCallSupplier = (Button) findViewById(R.id.call_supplier);
-
         mImageView =( ImageView)findViewById(R.id.book_image);
 
+        mCheckBoxOne = (CheckBox) findViewById(R.id.checkbox_1);
+        mCheckBoxTwo = (CheckBox) findViewById(R.id.checkbox_2);
+
+        mCheckBoxOne.setOnClickListener(chkListener);
+        mCheckBoxTwo.setOnClickListener(chkListener);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -142,13 +161,22 @@ public class EditorActivity extends AppCompatActivity
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
 
         mImageView.setOnTouchListener(mTouchListener);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
+
+      //  mCheckBoxOne.setOnTouchListener(mTouchListener);
+      //  mCheckBoxTwo.setOnTouchListener(mTouchListener);
 
         setupSpinner();
         increaseButton();
         decreaseButton();
         callButton();
-        openGallery();
     }
+
 
     private void openGallery(){
         Intent imageIntent;
@@ -226,7 +254,6 @@ public class EditorActivity extends AppCompatActivity
             }
         }
     }
-
 
     private void increaseButton() {
         mQuantityIncrease.setOnClickListener(new View.OnClickListener() {
@@ -323,6 +350,8 @@ public class EditorActivity extends AppCompatActivity
         String supplierNameString = mSupplierNameEditText.getText().toString().trim();
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
 
+        String saveCheckOneString = mCheckBoxOne.getText().toString().trim();
+        String saveCheckTwoString = mCheckBoxTwo.getText().toString().trim();
 
         if (mCurrentBookUri == null
                 && TextUtils.isEmpty(nameString)
@@ -331,6 +360,10 @@ public class EditorActivity extends AppCompatActivity
                 && TextUtils.isEmpty(supplierNameString)
                 && TextUtils.isEmpty(supplierPhoneString)
                 && TextUtils.isEmpty(imageString)
+
+                && TextUtils.isEmpty(saveCheckOneString)
+                && TextUtils.isEmpty(saveCheckTwoString)
+
                 && mType == BookContract.BookEntry.ALL){
 
             Toast.makeText(this, R.string.you_did_not_add_any_Book,
@@ -386,6 +419,9 @@ public class EditorActivity extends AppCompatActivity
         values.put(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE, supplierPhoneString);
 
         values.put(BookContract.BookEntry.COLUMN_BOOK_IMAGE, imageString);
+
+        values.put(BookContract.BookEntry.COLUMN_BOOK_CHICK_ONE, saveCheckOneString);
+        values.put(BookContract.BookEntry.COLUMN_BOOK_CHICK_TWO, saveCheckTwoString);
 
 
         // Show a toast message depending on whether or not the insertion was successful
@@ -526,7 +562,11 @@ public class EditorActivity extends AppCompatActivity
                 BookContract.BookEntry.COLUMN_BOOK_QUANTITY,
                 BookContract.BookEntry.COLUMN_BOOK_TYPE,
                 BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME,
-                BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE
+                BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE,
+
+                BookContract.BookEntry.COLUMN_BOOK_CHICK_ONE,
+                BookContract.BookEntry.COLUMN_BOOK_CHICK_TWO
+
         };
 
 
@@ -552,8 +592,6 @@ public class EditorActivity extends AppCompatActivity
 
             // Find the columns of pet attributes that we're interested in
             int imageColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_IMAGE);
-
-
             int nameColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_NAME);
             int priceColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_QUANTITY);
@@ -561,26 +599,41 @@ public class EditorActivity extends AppCompatActivity
             int supplierNColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_NAME);
             int supplierPColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_SUPPLIER_PHONE);
 
+            int checkOneColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_CHICK_ONE);
+            int checkTwoColumnIndex = cursor.getColumnIndex(BookContract.BookEntry.COLUMN_BOOK_CHICK_TWO);
+
 
             // Extract out the value from the Cursor for the given column index
             String currentImage = cursor.getString(imageColumnIndex);
-
             String currentName = cursor.getString(nameColumnIndex);
-            int currentPrice = cursor.getInt(priceColumnIndex);
+            float currentPrice = cursor.getFloat(priceColumnIndex);
+            DecimalFormat df = new DecimalFormat("0.00");
+            df.setMaximumFractionDigits(2);
+            String priceAsString = df.format(currentPrice);
+            priceAsString = priceAsString.replace(",", ".");
             int currentQuantity = cursor.getInt(quantityColumnIndex);
             String currentType = cursor.getString(typeColumnIndex);
             String currentSupplierN = cursor.getString(supplierNColumnIndex);
             int currentSupplierP = cursor.getInt(supplierPColumnIndex);
 
+            String currentCheckOne = cursor.getString(checkOneColumnIndex);
+            String currentCheckTwo = cursor.getString(checkTwoColumnIndex);
+
 
             // Update the views on the screen with the values from the database
             final Uri mImageU = Uri.parse(currentImage);
             mNameEditText.setText(currentName);
-            mPriceEditText.setText(Integer.toString(currentPrice));
+            mPriceEditText.setText(Float.toString(currentPrice));
             mQuantityEditText.setText(Integer.toString(currentQuantity));
             mSupplierNameEditText.setText(currentSupplierN);
             mSupplierPhoneEditText.setText(Integer.toString(currentSupplierP));
 
+            mCheckBoxOne.setText(currentCheckOne);
+            mCheckBoxTwo.setText(currentCheckTwo);
+
+
+            boolean checked1 = mCheckBoxOne.isChecked();
+            boolean checked2 = mCheckBoxTwo.isChecked();
 
             // Gender is a dropdown spinner, so map the constant value from the database
             // into one of the dropdown options (0 is Unknown, 1 is Male, 2 is Female).
