@@ -51,6 +51,7 @@ public class EditorActivity extends AppCompatActivity
     /**
      * Content URI for the existing pet (null if it's a new pet)
      */
+    //
     private Uri mCurrentBookUri;
 
     /**
