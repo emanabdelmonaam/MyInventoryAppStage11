@@ -95,10 +95,10 @@ public class EditorActivity extends AppCompatActivity
     private View.OnClickListener chkListener = new View.OnClickListener(){
         public void onClick(View v){
             if(((CheckBox)v).isChecked()){
-                Toast.makeText(getBaseContext(), "click : " + ((CheckBox) v).getText() + " es seleccionado", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getBaseContext(), "click : " + ((CheckBox) v).getText() + " es seleccionado", Toast.LENGTH_SHORT).show();
 
             }else{
-                Toast.makeText(getBaseContext(),"click : " + ((CheckBox)v).getText() + " es deseleccionado",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getBaseContext(),"click : " + ((CheckBox)v).getText() + " es deseleccionado",Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -295,6 +295,20 @@ public class EditorActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+    }
+
+    private void setCheckBoxes(){
+
+        final CheckBox mCheckBoxOne = (CheckBox) findViewById(R.id.checkbox_1);
+        if (mCheckBoxOne.isChecked()) {
+           // final String strRamps =mCheckBoxOne.getText().toString();
+        }
+        final CheckBox mCheckBoxTwo = (CheckBox) findViewById(R.id.checkbox_2);
+        if (mCheckBoxTwo.isChecked()) {
+            final String strRamps =mCheckBoxTwo.getText().toString();
+        }
+
+
     }
 
     /**
@@ -566,7 +580,6 @@ public class EditorActivity extends AppCompatActivity
 
                 BookContract.BookEntry.COLUMN_BOOK_CHICK_ONE,
                 BookContract.BookEntry.COLUMN_BOOK_CHICK_TWO
-
         };
 
 
@@ -628,12 +641,17 @@ public class EditorActivity extends AppCompatActivity
             mSupplierNameEditText.setText(currentSupplierN);
             mSupplierPhoneEditText.setText(Integer.toString(currentSupplierP));
 
-            mCheckBoxOne.setText(currentCheckOne);
-            mCheckBoxTwo.setText(currentCheckTwo);
+            //mCheckBoxOne.setText(currentCheckOne);
+            //mCheckBoxTwo.setText(currentCheckTwo);
+
+            mCheckBoxOne.setChecked(true);
+            mCheckBoxOne.setChecked(true);
 
 
-            boolean checked1 = mCheckBoxOne.isChecked();
-            boolean checked2 = mCheckBoxTwo.isChecked();
+            // if (mCheckBoxOne.isChecked()){
+              //  mCheckBoxOne.setChecked(true);
+           // }else mCheckBoxOne.setChecked(false);
+
 
             // Gender is a dropdown spinner, so map the constant value from the database
             // into one of the dropdown options (0 is Unknown, 1 is Male, 2 is Female).
